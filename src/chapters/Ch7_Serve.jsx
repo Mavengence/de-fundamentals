@@ -64,10 +64,10 @@ function MetricsSim() {
 
   const ungovernedSteps = () => [
     { k: 'parse',     title: 'Parse intent', desc: 'question → "find a relevant table"', ms: 500 },
-    { k: 'search',    title: 'Search warehouse schema', desc: 'No registry — grep table names…', ms: 1000 },
+    { k: 'search',    title: 'Search warehouse schema', desc: 'No registry: grep table names…', ms: 1000 },
     { k: 'guess',     title: 'Pick table by name match', desc: 'Chose "dau_v3_deprecated_2021"', ms: 800 },
     { k: 'wrongcol',  title: 'Reference columns from memory', desc: 'Wrote: user_cnt · daily_cnt', ms: 900, error: true },
-    { k: 'execute',   title: 'Execute on Presto', desc: 'Column not found — abort', ms: 500, error: true },
+    { k: 'execute',   title: 'Execute on Presto', desc: 'Column not found: abort', ms: 500, error: true },
   ];
 
   const renderSQL = (q) => {
@@ -117,7 +117,7 @@ function MetricsSim() {
 
   return (
     <Panel eyebrow="live simulator · metrics query"
-           title="The same question — with and without a metrics layer"
+           title="The same question: with and without a metrics layer"
            meta={governed ? 'governed' : 'ungoverned'}
            caption="Toggle the ungoverned switch. Same question, same warehouse. The difference is whether the consumer can find the right table by name or has to guess.">
       <div className="aa-question-row">
@@ -136,7 +136,7 @@ function MetricsSim() {
         <div className="aa-stage-col">
           <div className="aa-stage-head"><span>Query trace</span><span>{run.status}</span></div>
           <div className="aa-stage-body">
-            {run.log.length === 0 && <div style={{padding:'40px 18px', textAlign:'center', color:'var(--fg-2)', fontFamily:'var(--font-mono)', fontSize:11, letterSpacing:'0.02em'}}>idle — press ▶ Run query</div>}
+            {run.log.length === 0 && <div style={{padding:'40px 18px', textAlign:'center', color:'var(--fg-2)', fontFamily:'var(--font-mono)', fontSize:11, letterSpacing:'0.02em'}}>idle: press ▶ Run query</div>}
             {run.log.map((s, i) => {
               const cls = s.error ? 'error' : (i === run.step && run.status === 'running' ? 'active' : 'done');
               return (
@@ -196,7 +196,7 @@ function Ch7_Serve({ chapter, internalMode }) {
       <Hero accent={chapter.hex}
             eyebrow={`Chapter ${chapter.n} · ${chapter.time}`}
             title="Serve: <span class='accent'>five teams.</span> Five DAU numbers. One meeting."
-            hook="The warehouse has the right number. Nobody can agree what it is. Without a metrics layer, every team defines DAU in their dashboard SQL — independently, slightly differently, each plausible. You cannot reconcile them after the meeting. You can only prevent it before."
+            hook="The warehouse has the right number. Nobody can agree what it is. Without a metrics layer, every team defines DAU in their dashboard SQL: independently, slightly differently, each plausible. You cannot reconcile them after the meeting. You can only prevent it before."
             meta={[
               { k: 'Contract', v: 'one definition per metric · forever' },
               { k: 'Owner', v: 'the team that produces the source' },
@@ -207,15 +207,15 @@ function Ch7_Serve({ chapter, internalMode }) {
         <SectionLabel n="8.1">What a metrics layer actually is</SectionLabel>
         <h2 className="h2">Every metric, one canonical definition.</h2>
         <p className="prose">
-          A metrics layer is a <strong>registry</strong>: every business metric — DAU, revenue, active
-          creators — is declared once, with an owner, a grain, a source table, and a formula. Downstream
+          A metrics layer is a <strong>registry</strong>: every business metric: DAU, revenue, active
+          creators: is declared once, with an owner, a grain, a source table, and a formula. Downstream
           consumers don't write SQL against raw tables; they ask for a metric by name, and the system
           composes the SQL, applies access controls, and returns a lineage-traceable answer.
         </p>
         <MetricsRegistry />
         <p className="prose" style={{marginTop: 18}}>
           This is also your <strong>access surface</strong>. Row-level security, PII masking, regional
-          data residency — all enforced at the metrics layer, so every consumer (a viewer of a
+          data residency: all enforced at the metrics layer, so every consumer (a viewer of a
           dashboard, an analyst in a notebook, a partner via API) gets the same guarantees.
         </p>
       </section>
@@ -244,7 +244,7 @@ function Ch7_Serve({ chapter, internalMode }) {
         <p className="prose">
           The win of a single registry: the number on the CFO's deck, the number on the product
           dashboard, the number quoted in Slack, and the number you'd get by writing SQL
-          yourself — <em>are all the same number</em>, because they all resolve through the same
+          yourself: <em>are all the same number</em>, because they all resolve through the same
           definition. Drift in any of these is a bug ticket, not an interpretation difference.
         </p>
         <div className="cards-2">
@@ -270,7 +270,7 @@ function Ch7_Serve({ chapter, internalMode }) {
 
       <BestPractices items={[
         "Every metric has <b>one row in the registry</b>: name, owner, grain, source, formula. No ambiguity, no branch variants, no 'revenue_final_FINAL'.",
-        "Expose the metric layer as an <b>API</b> — let dashboards, notebooks, and external callers all resolve the same way. UI-only metric tools create dashboard/SQL mismatches.",
+        "Expose the metric layer as an <b>API</b>: let dashboards, notebooks, and external callers all resolve the same way. UI-only metric tools create dashboard/SQL mismatches.",
         "Treat metric changes as <b>breaking changes</b>. Version, announce, deprecate. Don't mutate a live formula.",
         "Audit every served answer with the <b>trace</b> (which metric, which filters, which source partitions). If you can't trace it, you don't ship it.",
       ]} />

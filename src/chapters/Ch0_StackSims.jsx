@@ -15,7 +15,7 @@ const { useState, useEffect, useRef, useMemo } = React;
 const LAYERS = [
   { n: 7, key: 'app',      name: 'Application',        sub: 'Hex · Mode · dashboards · notebooks · BI tools',  api: 'Natural language · SQL · REST',                       hue: 'L7', fail: 'User-facing surface dark. No new queries can enter the system.' },
   { n: 6, key: 'engine',   name: 'Query engine',       sub: 'Trino (interactive) · Spark (warehouse ETL) · Snowflake', api: 'SQL → distributed plan',                             hue: 'L6', fail: 'Queries queue indefinitely. Planner never turns SQL into work.' },
-  { n: 5, key: 'catalog',  name: 'Catalog / Metastore', sub: 'Glue Catalog · schema + physical location of every table', api: 'Thrift: getPartitions · getTableSchema',          hue: 'L5', fail: 'Planning fails before any read happens — engine has no partition list to open.' },
+  { n: 5, key: 'catalog',  name: 'Catalog / Metastore', sub: 'Glue Catalog · schema + physical location of every table', api: 'Thrift: getPartitions · getTableSchema',          hue: 'L5', fail: 'Planning fails before any read happens: engine has no partition list to open.' },
   { n: 4, key: 'table',    name: 'Table abstraction',  sub: 'Namespaces → Tables → Partitions → Rows · ds-partitioned', api: "SELECT … WHERE ds = '2024-01-15'",                    hue: 'L4', fail: 'Partition resolution unreliable. Engine may scan too many or miss data.' },
   { n: 3, key: 'format',   name: 'File format',        sub: 'Parquet (ORC fork) · Parquet · Avro · TEXTFILE',           api: 'Read/write by stripe · predicate pushdown',          hue: 'L3', fail: 'Footer corruption. Stripe skipping unavailable; full-file scans only.' },
   { n: 2, key: 'blob',     name: 'Blob layer',         sub: 'S3 · blob API · manages physical placement',     api: 'put(blob) · get(blob_id)',                            hue: 'L2', fail: 'Reads slow, retries kick in, timeouts cascade up to engine.' },
@@ -95,8 +95,8 @@ function LayerCake() {
                 <div className="lc-dc-title">{L.name}</div>
                 <div className="lc-dc-row"><span className="lc-dc-k">Stores</span><span className="lc-dc-v">{L.sub}</span></div>
                 <div className="lc-dc-row"><span className="lc-dc-k">API</span><span className="lc-dc-v">{L.api}</span></div>
-                <div className="lc-dc-row"><span className="lc-dc-k">Above</span><span className="lc-dc-v">{above ? `L${above.n} ${above.name}` : '— (top of stack)'}</span></div>
-                <div className="lc-dc-row"><span className="lc-dc-k">Below</span><span className="lc-dc-v">{below ? `L${below.n} ${below.name}` : '— (bare metal)'}</span></div>
+                <div className="lc-dc-row"><span className="lc-dc-k">Above</span><span className="lc-dc-v">{above ? `L${above.n} ${above.name}` : '- (top of stack)'}</span></div>
+                <div className="lc-dc-row"><span className="lc-dc-k">Below</span><span className="lc-dc-v">{below ? `L${below.n} ${below.name}` : '- (bare metal)'}</span></div>
                 {failMode && (
                   <div className="lc-dc-fail">
                     <div className="lc-dc-fail-lab">If this layer is down</div>
@@ -191,7 +191,7 @@ function ByteTrace() {
 
   return (
     <Panel eyebrow="live · trace" title="A byte's journey" meta="dim_users.user_email · warm vs cold cache"
-           caption="Each stop has its own latency budget. Cold Metastore and S3 dominate — that's why caching matters.">
+           caption="Each stop has its own latency budget. Cold Metastore and S3 dominate: that's why caching matters.">
       {/* Headline: wall-clock comparison so the "100×" lesson lands in 2 seconds */}
       <div className="bt-headline">
         <div className={`bt-headline-cell ${cache === 'warm' ? 'is-active' : ''}`}>
@@ -255,7 +255,7 @@ function ByteTrace() {
         </div>
         <div className="bt-ro good">
           <div className="bt-ro-k">skipped stripes</div>
-          <div className="bt-ro-v">{pos > 4 ? '1 of 4' : '—'}</div>
+          <div className="bt-ro-v">{pos > 4 ? '1 of 4' : '-'}</div>
           <div className="bt-ro-s">predicate pushdown kicks in at step 05</div>
         </div>
       </div>
@@ -519,7 +519,7 @@ function SqlDecoderStage() {
           <div className="sd-gantt-note">
             {Q.id === 'scan'  && 'Single stage. Scan+filter+project fuse into one pipeline on each worker.'}
             {Q.id === 'hash'  && 'Three stages. Two parallel scans, then a join stage after the shuffle, then a final aggregate.'}
-            {Q.id === 'bcast' && 'One stage. The small dim table is broadcast to every worker — no shuffle of the big table.'}
+            {Q.id === 'bcast' && 'One stage. The small dim table is broadcast to every worker: no shuffle of the big table.'}
           </div>
         </div>
       </div>
@@ -538,7 +538,7 @@ const CONNECTORS = [
     workers: 'fan-out',   note: 'Workers fan out to read Parquet files from S3. Predicate pushdown via stripe stats. The big-data default.' },
   { id: 'redis_cache', name: 'Redis-backed cache',       sub: 'local shards on Trino workers',  latency: 'milliseconds', color: 'c2',
     stats: { 'shards read': '12', 'bytes read': '180 MB', 'predicate pushdown': 'row-group stats' },
-    workers: 'local-ssd', note: 'Data lives on the Presto worker nodes themselves. Reads are local SSD — no network, no blob layer.' },
+    workers: 'local-ssd', note: 'Data lives on the Presto worker nodes themselves. Reads are local SSD: no network, no blob layer.' },
   { id: 'system', name: 'System tables', sub: 'in-memory engine metadata',       latency: 'microseconds', color: 'c3',
     stats: { 'rows': '8', 'bytes': '1 KB', 'predicate pushdown': 'N/A (in-memory)' },
     workers: 'coordinator', note: 'Metadata only. No disk. The coordinator answers directly from its own memory.' },
@@ -550,7 +550,7 @@ function ConnectorSwitcher() {
 
   return (
     <Panel eyebrow="live · pluggable" title="Same SQL. Different physics." meta={`connector: ${C.name}`}
-           caption="Presto's pluggable connector interface — the shape of the query is identical, the runtime is not.">
+           caption="Presto's pluggable connector interface: the shape of the query is identical, the runtime is not.">
       <div className="cs-wrap">
         <div className="cs-sql">
           <div className="cs-sql-q"><span className="tok-k">SELECT</span> <span className="tok-f">count</span>(*) <span className="tok-k">FROM</span> x <span className="tok-k">WHERE</span> region = <span className="tok-s">'EU'</span>;</div>

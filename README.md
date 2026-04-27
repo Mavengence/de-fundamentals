@@ -4,7 +4,7 @@
 
 **Think like a data engineer by lunch.**
 
-*The only DE course where every concept is a live simulator — not a slide, not a video.*
+*The only DE course where every concept is a live simulator: not a slide, not a video.*
 
 [![Live Demo](https://img.shields.io/badge/Live_Demo-Open_Course-%2306B6D4?style=for-the-badge)](https://www.timloehr.me/de-fundamentals/)
 [![GitHub Stars](https://img.shields.io/github/stars/Mavengence/data-engineering-fundamentals?style=for-the-badge&color=FDEE21)](https://github.com/Mavengence/data-engineering-fundamentals/stargazers)
@@ -15,7 +15,7 @@
 ---
 
 <!--
-  📸 ADD A DEMO GIF HERE — this is the #1 thing that drives stars.
+  📸 ADD A DEMO GIF HERE: this is the #1 thing that drives stars.
   Record 30 seconds:
     1. Hover pipeline dots on the Overview → detail cards appear
     2. Ch0: flip Scanner from row to columnar → 99 columns vanish, one glows blue
@@ -30,7 +30,7 @@
 A browser-native crash course on building production data pipelines.
 10 chapters. 15 live simulators. No slides. No video. No account.
 
-The course treats every concept as a **failure mode** — you learn what watermarks are
+The course treats every concept as a **failure mode**: you learn what watermarks are
 by watching events drop when you drag the wrong window. You learn what key skew is by
 cranking a slider until worker 0 overflows. You learn what idempotency means by watching
 a retry double-count every row in real time.
@@ -39,7 +39,7 @@ a retry double-count every row in real time.
 
 ---
 
-## Try it now — no install
+## Try it now: no install
 
 ```
 https://www.timloehr.me/de-fundamentals/
@@ -73,13 +73,13 @@ No npm. No build step. Open `index.html` directly in Chrome and it also works.
 
 | # | Chapter | The lesson in one line |
 |---|---------|----------------------|
-| 00 | Core Fundamentals | Why columnar skips 99% of disk — and what Parquet actually is |
+| 00 | Core Fundamentals | Why columnar skips 99% of disk, and what Parquet actually is |
 | 01 | Ingest | Two clocks per event. The wrong one decides what you lose. |
 | 02 | Streaming | Fast loses on completeness; slow loses on latency. Pick one. |
 | 03 | Store | One bad day on Day 3 poisons every day that follows it. |
 | 04 | Compute | The planner bets on statistics. Wrong stats, wrong plan. |
 | 05 | Orchestrate | A task that ran twice must equal a task that ran once. Non-negotiable. |
-| 06 | Quality | A bad row is worse than a missing row — the bad one ships to the exec deck. |
+| 06 | Quality | A bad row is worse than a missing row: the bad one ships to the exec deck. |
 | 07 | Discover | Six commands. The answer in under 3 seconds. Always. |
 | 08 | Serve | Five teams. Five DAU numbers. One meeting. |
 | 09 | Govern | An unannotated PII column never ships. |
@@ -91,21 +91,21 @@ No npm. No build step. Open `index.html` directly in Chrome and it also works.
 
 Every concept has a live sim. Here are the best ones:
 
-**Column scanner** — flip row to columnar. 99 columns dim to near-invisible; the target
+**Column scanner**: flip row to columnar. 99 columns dim to near-invisible; the target
 column glows blue. The progress bar covers 100x more ground. You feel the 100x speedup
 before you read the explanation.
 
-**Watermark drag** — drag the event-time window left and right. Events turn amber and
+**Watermark drag**: drag the event-time window left and right. Events turn amber and
 drop as your window closes. The late-event problem becomes physical.
 
-**Hash-join shuffle** — drag key skew to 90%. Worker 0 overflows with a pulsing
+**Hash-join shuffle**: drag key skew to 90%. Worker 0 overflows with a pulsing
 OVERLOADED banner. The other workers dim to near-empty. You see the hot-key problem
 in your peripheral vision.
 
-**Idempotent backfill** — flip INSERT OVERWRITE to INSERT. Introduce a failure. Watch
+**Idempotent backfill**: flip INSERT OVERWRITE to INSERT. Introduce a failure. Watch
 the retry double-count every row. Flip back. Problem gone.
 
-**Guided Capstone** — six contracts, six sabotage buttons. Hit "guided tutorial" and
+**Guided Capstone**: six contracts, six sabotage buttons. Hit "guided tutorial" and
 watch 48 seconds of automated chaos: each contract breaks in turn, rows burst at the
 gate, the downstream number goes wrong. Then everything restores.
 
@@ -147,13 +147,13 @@ Found a wrong number? A sim that does not teach clearly? Open an issue or a PR.
 
 Each chapter is a single self-contained JSX file. You can read any of them top-to-bottom
 in under 10 minutes. Adding a new simulator means adding a React component to the
-relevant chapter file — no build pipeline to fight.
+relevant chapter file: no build pipeline to fight.
 
 ---
 
 ## License
 
-MIT — fork it, teach with it, build on it.
+MIT: fork it, teach with it, build on it.
 
 ---
 

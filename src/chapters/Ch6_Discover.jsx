@@ -151,12 +151,12 @@ function DiscoverySpeedrun({ reduceMotion, internalMode }) {
         <div className="ds-intro">
           <div className="ds-intro-grid">
             {[
-              { s: 'ht <table>',          w: 'table home — owner, schema, freshness' },
+              { s: 'ht <table>',          w: 'table home: owner, schema, freshness' },
               { s: 'fpl <table>',         w: 'producing pipeline · cadence · oncall' },
               { s: 'ds produce <table>',  w: 'downstream consumers · one hop' },
               { s: 'qbgs <term>',         w: 'search the warehouse by keyword' },
               { s: 'udf <name>',          w: 'UDF catalog lookup' },
-              { s: 'wut <term>',          w: 'glossary — what IS this thing' },
+              { s: 'wut <term>',          w: 'glossary: what IS this thing' },
             ].map(x => (
               <div key={x.s} className="ds-shortcut-card">
                 <code>{x.s}</code>
@@ -427,7 +427,7 @@ function Ch6_Discover({ chapter, internalMode }) {
         <p className="prose">
           When someone asks <em>"what would break if we change fct_events?"</em>, you don't grep the
           warehouse. You click the node. Column-level edges show which downstream metric and dashboard
-          reads which specific column. This is the adoption-safety gate — trace one hop up and one hop
+          reads which specific column. This is the adoption-safety gate: trace one hop up and one hop
           down before you commit.
         </p>
         <LineageCamera internalMode={internalMode} />
@@ -436,7 +436,7 @@ function Ch6_Discover({ chapter, internalMode }) {
       <AntiPatterns items={[
         `<b>Searching code blindly.</b> <code>ht &lt;table&gt;</code> answers in 2s what <code>grep -R</code> answers in 4 hours (wrong).`,
         "<b>Adopting a table without checking the deprecation banner.</b> The table exists, returns data, has the right schema. The banner says 'deprecated 2023-06, migrate to v2.' You won't know until migration week.",
-        "<b>Consuming a table whose lineage you've never traced.</b> If you can't answer 'what upstream producer would I page on an outage' in 5s, you haven't adopted — you've borrowed.",
+        "<b>Consuming a table whose lineage you've never traced.</b> If you can't answer 'what upstream producer would I page on an outage' in 5s, you haven't adopted: you've borrowed.",
       ]} />
 
       <BestPractices items={[
@@ -447,7 +447,7 @@ function Ch6_Discover({ chapter, internalMode }) {
 
       <Takeaway items={[
         "<b>Six shortcuts replace four hours of code spelunking.</b> Learn them once; they pay back every day.",
-        `<b>${N.datasetspec} is the contract.</b> Owner, schema, actors, deprecation — one file, one truth.`,
+        `<b>${N.datasetspec} is the contract.</b> Owner, schema, actors, deprecation: one file, one truth.`,
         "<b>Lineage is a camera, not a document.</b> You don't read it top-down; you click the node and the view comes to you.",
       ]} />
     </>

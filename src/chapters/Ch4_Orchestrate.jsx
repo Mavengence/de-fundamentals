@@ -133,7 +133,7 @@ function BackfillSim() {
     if (mode === 'overwrite') {
       append({t:'  •  ', k:'ok', m:`task.${baseDate(pi)} → COMMIT · rows=${100+pi*8} ${wasRetried ? '(retry OK)' : ''}`});
     } else {
-      if (wasRetried) append({t:'  •  ', k:'err', m:`task.${baseDate(pi)} → INSERT appended DOUBLED rows (${(100+pi*8)*2}) — no idempotency`});
+      if (wasRetried) append({t:'  •  ', k:'err', m:`task.${baseDate(pi)} → INSERT appended DOUBLED rows (${(100+pi*8)*2}): no idempotency`});
       else append({t:'  •  ', k:'ok', m:`task.${baseDate(pi)} → INSERT committed · rows=${100+pi*8}`});
     }
     resolve();
@@ -159,7 +159,7 @@ function BackfillSim() {
                className={`bf-part ${p.status}`}
                style={p.status==='writing' ? {'--fill': `${p.fill}%`} : {}}>
             <div className="date">ds={p.date}</div>
-            <div className="rows">{p.rows != null ? p.rows.toLocaleString() : '—'}</div>
+            <div className="rows">{p.rows != null ? p.rows.toLocaleString() : '-'}</div>
             <div className="sub">
               {p.status === 'pending' && 'queued'}
               {p.status === 'writing' && `writing ${Math.round(p.fill)}%`}
@@ -281,7 +281,7 @@ function Ch4_Orchestrate({ chapter }) {
       <Hero accent={chapter.hex}
             eyebrow={`Chapter ${chapter.n} · ${chapter.time}`}
             title="Orchestrate: <span class='accent'>retries are a feature.</span> Only if the write is idempotent."
-            hook="Airflow is the scheduler that runs every pipeline at a modern tech company. Its contract is simple and ruthless: <strong>any task may run more than once.</strong> Crashes, timeouts, backfills — the scheduler will retry. Your job is to make sure retries don't corrupt the table."
+            hook="Airflow is the scheduler that runs every pipeline at a modern tech company. Its contract is simple and ruthless: <strong>any task may run more than once.</strong> Crashes, timeouts, backfills: the scheduler will retry. Your job is to make sure retries don't corrupt the table."
             meta={[
               { k: 'Scheduler', v: 'Airflow · cron + DAG' },
               { k: 'Unit', v: 'task (op on 1 partition)' },
@@ -309,7 +309,7 @@ function Ch4_Orchestrate({ chapter }) {
         <SectionLabel n="5.2">Idempotency, visualized</SectionLabel>
         <h2 className="h2">Flip OVERWRITE → INSERT. Watch the rows double.</h2>
         <p className="prose">
-          Seven-day backfill. Failure rate knob simulates transient errors — timeouts, spot-instance
+          Seven-day backfill. Failure rate knob simulates transient errors: timeouts, spot-instance
           evictions, OOM kills. With <code>INSERT OVERWRITE</code>, a retry replaces the partition
           wholesale: the final row count is correct no matter how many attempts happened. With
           plain <code>INSERT</code>, every failed attempt left rows behind, and the successful retry
@@ -339,7 +339,7 @@ function Ch4_Orchestrate({ chapter }) {
       </section>
 
       <AntiPatterns items={[
-        "<b>Using <code>INSERT INTO</code> in a scheduled task.</b> The scheduler will retry you. You will double-write. Ask every DE who has on-called which bug they've seen most — it's this one.",
+        "<b>Using <code>INSERT INTO</code> in a scheduled task.</b> The scheduler will retry you. You will double-write. Ask every DE who has on-called which bug they've seen most: it's this one.",
         "<b>Side effects with no undo.</b> Sending a push notification inside an ETL task is not re-runnable. Separate side effects into their own dedicated tasks, and log what was sent so replay can skip it.",
         "<b>Reading <code>CURRENT_DATE</code> / <code>NOW()</code> inside task bodies.</b> A backfill in May for last Tuesday will land under this Tuesday's partition. Use the <code>&lt;DATEID&gt;</code> macro.",
         "<b>Skipping SLA annotations.</b> A task that should finish by 06:00 but doesn't tell the scheduler so won't page anyone when it silently slips to 14:00.",
@@ -347,7 +347,7 @@ function Ch4_Orchestrate({ chapter }) {
 
       <BestPractices items={[
         "Every scheduled task: <b><code>INSERT OVERWRITE TABLE … PARTITION(ds='&lt;DATEID&gt;')</code></b>. Full stop. No exceptions.",
-        "Stamp every partition with the <b><code>DATEID</code> macro</b> — never wall clock. A task running today must produce the same bytes as a rerun next year.",
+        "Stamp every partition with the <b><code>DATEID</code> macro</b>: never wall clock. A task running today must produce the same bytes as a rerun next year.",
         "Tag SLAs and alerts at the <b>DAG node level</b>. The scheduler pages on missed SLAs; don't rely on dashboards to catch late pipelines.",
         "For unavoidable side effects (emails, pushes, external API writes), <b>isolate them in a dedicated terminal task</b> and maintain an external ledger so replays can skip already-sent work.",
       ]} />

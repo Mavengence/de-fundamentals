@@ -3,7 +3,7 @@
 const { useState, useEffect, useRef, useCallback } = React;
 
 const CHAPTERS = [
-  { id: 'home',   n: '—',   title: 'Overview',                sub: 'The pipeline, end to end',       time: '3 min',  hex: '#6B7787' },
+  { id: 'home',   n: '-',   title: 'Overview',                sub: 'The pipeline, end to end',       time: '3 min',  hex: '#6B7787' },
   { id: 'fund',   n: '00',  title: 'Core Fundamentals',       sub: 'Storage, formats, engines',      time: '8 min',  hex: '#0F1729' },
   { id: 'ingest', n: '01',  title: 'Ingest',                  sub: 'Where data is born',             time: '9 min',  hex: '#7C5CFF' },
   { id: 'stream', n: '02',  title: 'Streaming & Real-time',   sub: 'The bridge to the warehouse',    time: '7 min',  hex: '#22D3EE' },

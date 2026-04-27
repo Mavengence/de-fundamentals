@@ -342,7 +342,7 @@ function ConveyorSim({ reduceMotion, internalMode }) {
     <Panel eyebrow="live simulator · streaming boundary"
            title="The Ingestion Conveyor Belt"
            meta={`${rate}/s · dup ${dupPct}% · late ${latePct}%`}
-           caption={`Time advances left→right. The watermark trails ~${CV_WATERMARK_LAG}s behind "now". Two independent guards — dedup by event_id, drop-late by watermark — protect the warehouse boundary.`}>
+           caption={`Time advances left→right. The watermark trails ~${CV_WATERMARK_LAG}s behind "now". Two independent guards: dedup by event_id, drop-late by watermark: protect the warehouse boundary.`}>
 
       <div className="cv-stage" ref={stageRef}>
         <div className="cv-field">
@@ -527,7 +527,7 @@ function Ch1_5_Streaming({ chapter, internalMode }) {
       <Hero accent={chapter.hex}
             eyebrow={`Chapter ${chapter.n} · ${chapter.time}`}
             title={`Streaming: <span class='accent'>real-time</span> and <span class='accent'>accurate</span> are pick-two.`}
-            hook={`Events arrive continuously — clicks, impressions, heartbeats. <strong>${N.flink}</strong> on top of <strong>${N.kafkastreams}</strong> gives you answers in seconds. ${N.snowflake} gives you answers you can bet a launch on. <em>They are not the same number.</em> Your job: know which one your decision needs, and bridge the two cleanly.`}
+            hook={`Events arrive continuously: clicks, impressions, heartbeats. <strong>${N.flink}</strong> on top of <strong>${N.kafkastreams}</strong> gives you answers in seconds. ${N.snowflake} gives you answers you can bet a launch on. <em>They are not the same number.</em> Your job: know which one your decision needs, and bridge the two cleanly.`}
             meta={[
               { k: 'Streaming engine', v: N.flink },
               { k: 'Bus', v: N.kafka },
@@ -599,14 +599,14 @@ function Ch1_5_Streaming({ chapter, internalMode }) {
 
       <AntiPatterns items={[
         `<b>Trusting sampled real-time as ground truth.</b> "${N.flink} says 4.2M, the deck says 4.2M." The deck will be cited in a launch review. The stream will have drifted 90 minutes later. Always reconcile with the warehouse count before anything permanent.`,
-        `<b>"The producer promised exactly-once" → skipping dedup.</b> Producers lie, retry logic fires, and bus partitions re-order. Dedup at every warehouse boundary — this is non-negotiable.`,
+        `<b>"The producer promised exactly-once" → skipping dedup.</b> Producers lie, retry logic fires, and bus partitions re-order. Dedup at every warehouse boundary: this is non-negotiable.`,
         "<b>Processing day N before its watermark closes.</b> A daily rollup that runs at 00:05 will miss an hour of late-arriving events. Schedule against the watermark, not the wall clock.",
       ]} />
 
       <BestPractices items={[
         `<b>Signal table per stream.</b> A separate tiny table that records when a watermark closed for a (source, ds) pair. Downstream ${N.waitForSignal} waits on the <em>signal</em>, not the data.`,
         `<b>Dedup at every boundary.</b> <code>ROW_NUMBER() OVER (PARTITION BY event_id ORDER BY received_ts DESC) = 1</code>. Same template everywhere.`,
-        "<b>Weekly real-time vs warehouse reconciliation.</b> Compute the delta. Alert on drift &gt; X%. The drift itself is a bug-finder — a producer misbehaving, a bus partition stuck, a watermark misconfigured.",
+        "<b>Weekly real-time vs warehouse reconciliation.</b> Compute the delta. Alert on drift &gt; X%. The drift itself is a bug-finder: a producer misbehaving, a bus partition stuck, a watermark misconfigured.",
       ]} />
 
       <Takeaway items={[

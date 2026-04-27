@@ -80,7 +80,7 @@ function CumulativeSim() {
           <div className="cm2-panel-head">
             <div className="cm2-panel-eyebrow">step 1 · prior state</div>
             <div className="cm2-panel-title">Yesterday's snapshot</div>
-            <div className="cm2-panel-sub"><code>user_lifetime_points</code> · day {day || '—'}</div>
+            <div className="cm2-panel-sub"><code>user_lifetime_points</code> · day {day || '-'}</div>
           </div>
           <div className="cm2-table">
             <div className="cm2-thead">
@@ -88,7 +88,7 @@ function CumulativeSim() {
             </div>
             <div className="cm2-tbody">
               {day === 0 ? (
-                <div className="cm2-empty">— no prior state on Day 1 —</div>
+                <div className="cm2-empty">- no prior state on Day 1 -</div>
               ) : yesterday.slice(0, 10).map(r => (
                 <div className="cm2-row" key={r.id}>
                   <span className="cm2-key">{r.id}</span>
@@ -115,7 +115,7 @@ function CumulativeSim() {
             <div className="cm2-panel-eyebrow">step 2 · incoming</div>
             <div className="cm2-panel-title">Today's events</div>
             <div className="cm2-panel-sub"><code>daily_user_points</code> · day {day + 1}</div>
-            {bugActive && <div className="cm2-panel-alert">⚠ unit mix-up — points halved</div>}
+            {bugActive && <div className="cm2-panel-alert">⚠ unit mix-up: points halved</div>}
           </div>
           <div className="cm2-table">
             <div className="cm2-thead">
@@ -159,7 +159,7 @@ function CumulativeSim() {
                   <span className="cm2-key">{r.id}</span>
                   <span className="cm2-val">{r.pts}</span>
                   <span className={`cm2-status cm2-st-${r.state}`}>
-                    {r.state === 'new' ? 'NEW' : r.state === 'upd' ? `+${r.delta}` : '—'}
+                    {r.state === 'new' ? 'NEW' : r.state === 'upd' ? `+${r.delta}` : '-'}
                   </span>
                 </div>
               ))}
@@ -172,7 +172,7 @@ function CumulativeSim() {
         </div>
       </div>
 
-      {/* Change summary — what just happened */}
+      {/* Change summary: what just happened */}
       <div className="cm2-summary">
         <div className="cm2-summary-item">
           <span className="cm2-summary-k">New users</span>
@@ -212,7 +212,7 @@ function Ch2_Store({ chapter }) {
       <Hero accent={chapter.hex}
             eyebrow={`Chapter ${chapter.n} · ${chapter.time}`}
             title="Store: <span class='accent'>one bad day</span> poisons every day that follows it."
-            hook="Most tables are a photo of yesterday. <strong>Cumulative tables</strong> are the whole photo album — each day, you carry yesterday's state forward and merge in today's deltas. Elegant when clean, catastrophic when broken: one bad day taints every day after it until you backfill."
+            hook="Most tables are a photo of yesterday. <strong>Cumulative tables</strong> are the whole photo album: each day, you carry yesterday's state forward and merge in today's deltas. Elegant when clean, catastrophic when broken: one bad day taints every day after it until you backfill."
             meta={[
               { k: 'Pattern', v: 'state-carrying' },
               { k: 'Engine', v: 'Spark (FULL OUTER JOIN)' },
@@ -225,7 +225,7 @@ function Ch2_Store({ chapter }) {
         <p className="prose">
           Every cumulative table has the same shape: <code>FULL OUTER JOIN</code> yesterday's cumulative
           with today's deltas on the entity key, then <code>COALESCE</code> to pick the newer value.
-          <b> FULL OUTER</b> is the important part — <code>LEFT JOIN</code> will silently drop every user
+          <b> FULL OUTER</b> is the important part: <code>LEFT JOIN</code> will silently drop every user
           appearing for the first time today.
         </p>
         <p className="prose">
@@ -239,7 +239,7 @@ function Ch2_Store({ chapter }) {
         <SectionLabel n="3.2">Scrub the week</SectionLabel>
         <h2 className="h2">A bug on Day 3. Caught on Day 4. Backfilled on Day 5.</h2>
         <p className="prose">
-          Step through the scrubber below. Day 3 halves every user's points — a classic unit mix-up.
+          Step through the scrubber below. Day 3 halves every user's points: a classic unit mix-up.
           By Day 5 the drift is baked into every aggregate. Hit <em>Patch & backfill</em> and watch
           the bug days replay with the corrected logic.
         </p>
@@ -264,22 +264,22 @@ function Ch2_Store({ chapter }) {
       </section>
 
       <AntiPatterns items={[
-        "<b>Using <code>LEFT JOIN</code> instead of <code>FULL OUTER</code>.</b> You will silently drop every entity appearing today for the first time. Half your new users — gone.",
+        "<b>Using <code>LEFT JOIN</code> instead of <code>FULL OUTER</code>.</b> You will silently drop every entity appearing today for the first time. Half your new users: gone.",
         "<b>Forgetting to backfill after a bug.</b> The bad value lives forever in every downstream cumulative. A fix deployed tomorrow does nothing about yesterday.",
-        "<b>Depending on wall-clock time.</b> <code>CURRENT_DATE</code>, <code>NOW()</code>, today's timezone — all fatal. A backfill in May must produce identical output to the original run.",
+        "<b>Depending on wall-clock time.</b> <code>CURRENT_DATE</code>, <code>NOW()</code>, today's timezone: all fatal. A backfill in May must produce identical output to the original run.",
         "<b>Mutating the cumulative table in place.</b> Always write to a new partition and swap. Mutation kills reproducibility and breaks every downstream snapshot reader.",
       ]} />
 
       <BestPractices items={[
         "Always key every partition by <code>&lt;DATEID&gt;</code>. The job's clock is the partition, not the wall clock.",
-        "Version your cumulative logic. When the formula changes, backfill the whole history — don't let new rules and old rows coexist.",
+        "Version your cumulative logic. When the formula changes, backfill the whole history: don't let new rules and old rows coexist.",
         "Add a <b>row-count guardrail</b>: today's cumulative row count should never decrease. A shrink means you used <code>LEFT JOIN</code> instead of <code>FULL OUTER</code>.",
       ]} />
 
       <Takeaway items={[
         "Cumulative = <b>yesterday ⊕ today</b>. Every broken day taints every future day until you backfill.",
         "<code>FULL OUTER JOIN</code> + <code>COALESCE</code> is the canonical shape. <code>LEFT JOIN</code> drops new entities.",
-        "Always key off <code>&lt;DATEID&gt;</code>, never <code>CURRENT_DATE</code> — backfills demand determinism.",
+        "Always key off <code>&lt;DATEID&gt;</code>, never <code>CURRENT_DATE</code>: backfills demand determinism.",
       ]} />
     </>
   );

@@ -70,10 +70,10 @@ const TUTORIAL = [
   { stage: null,        title: 'Pipeline running clean',          caption: 'All six contracts hold. Rows flow source → analyst, every one arrives.' },
   { stage: 'merge',     title: 'Break the MERGE contract',        caption: 'LEFT JOIN drops yesterday-only users. Watch the churned (×) rows vanish at gate 1.' },
   { stage: 'write',     title: 'Break the WRITE contract',        caption: 'INSERT (non-idempotent) doubles rows on retry. Phantom duplicates appear after gate 2.' },
-  { stage: 'watermark', title: 'Break the WATERMARK contract',    caption: 'Late rows pass through silently instead of spilling to the side table — bad data lands.' },
+  { stage: 'watermark', title: 'Break the WATERMARK contract',    caption: 'Late rows pass through silently instead of spilling to the side table: bad data lands.' },
   { stage: 'dq',        title: 'Break the DQ contract',           caption: 'Quality checks miss the bad batch. Rows halt; signal never fires; downstream blocked.' },
-  { stage: 'govern',    title: 'Break the GOVERN contract',       caption: 'Access Gateway rejects the deploy. Rows blocked at gate 5 — nothing reaches the analyst.' },
-  { stage: 'semantic',  title: 'Break the SEMANTIC contract',     caption: 'Metric layer broken. Rows arrive but the downstream query references an unbound column — wrong answer.' },
+  { stage: 'govern',    title: 'Break the GOVERN contract',       caption: 'Access Gateway rejects the deploy. Rows blocked at gate 5: nothing reaches the analyst.' },
+  { stage: 'semantic',  title: 'Break the SEMANTIC contract',     caption: 'Metric layer broken. Rows arrive but the downstream query references an unbound column: wrong answer.' },
   { stage: null,        title: 'All contracts restored',          caption: 'Pipeline back to clean. The lesson: every gate is load-bearing.' },
 ];
 const TUTORIAL_STEP_MS = 6500;
@@ -419,9 +419,9 @@ function LivingPipeline({ internalMode, reduceMotion }) {
   const consumerView = (() => {
     if (brk.semantic) return { kind: 'err',  v: 'ERROR',
       caption: 'metric unbound · downstream query references a column that no longer exists' };
-    if (brk.dq)       return { kind: 'wait', v: '—',
+    if (brk.dq)       return { kind: 'wait', v: '-',
       caption: 'DQ failed · signal never fired · dashboard frozen on yesterday’s number' };
-    if (brk.govern)   return { kind: 'wait', v: '—',
+    if (brk.govern)   return { kind: 'wait', v: '-',
       caption: 'Access Gateway blocked the deploy · no fresh data reached the consumer' };
     if (brk.merge)    return { kind: 'bad',  v: '97.8%',
       caption: 'churned users dropped · denominator undercount · ratio inflated' };
@@ -512,7 +512,7 @@ function LivingPipeline({ internalMode, reduceMotion }) {
         {/* late table label */}
         <div className="lp-side-label" style={{left: `${GATE_X.watermark - 2}%`}}>
           <div>fct_users_late</div>
-          <div className="sub">late arrivals spill here — never dropped</div>
+          <div className="sub">late arrivals spill here: never dropped</div>
         </div>
 
         {/* dataset title */}
@@ -540,7 +540,7 @@ function LivingPipeline({ internalMode, reduceMotion }) {
           <div className="lp-gs" style={{left: `${GATE_X.watermark}%`}}>
             <span className="n">{stats.onTime.toLocaleString()}</span>
             <span className="lab">on-time</span>
-            <span className="sub">{stats.lateSpilled} spilled{brk.watermark ? ' — BYPASSED' : ''}</span>
+            <span className="sub">{stats.lateSpilled} spilled{brk.watermark ? ': BYPASSED' : ''}</span>
           </div>
           <div className="lp-gs" style={{left: `${GATE_X.dq}%`}}>
             <span className="n">{stats.dqPass.toLocaleString()}</span>
@@ -633,9 +633,9 @@ function LivingPipeline({ internalMode, reduceMotion }) {
                     {brk.dq      ? 'DQ failed → signal blocked.' :
                      brk.govern  ? 'Access Gateway blocked deploy → no signal.' :
                      brk.semantic? 'signal landed, but metric layer is broken.' :
-                     brk.merge   ? 'signal landed — but dim is missing churned users.' :
-                     brk.write   ? 'signal landed — but retry double-counted.' :
-                     brk.watermark ? 'signal landed — but late rows bypassed the gate.' :
+                     brk.merge   ? 'signal landed, but dim is missing churned users.' :
+                     brk.write   ? 'signal landed, but retry double-counted.' :
+                     brk.watermark ? 'signal landed, but late rows bypassed the gate.' :
                      'waiting…'}
                   </div>
                 </div>
@@ -684,7 +684,7 @@ const BREAKAGE_COPY = {
     code: 'WHERE event_ts ≥ ds → (removed)',
   },
   dq: {
-    good: 'row-count · freshness · unique — then signal',
+    good: 'row-count · freshness · unique: then signal',
     bad:  'checks skipped · signal never lands · downstream blocks',
     code: 'on_failure="block_downstream"',
   },
@@ -711,7 +711,7 @@ function Ch9_Capstone({ chapter, internalMode }) {
       <Hero accent={chapter.hex}
             eyebrow={`Chapter ${chapter.n} · ${chapter.time}`}
             title={`<span class='accent'>Break any one</span> of six contracts. Watch exactly what fails.`}
-            hook={`<code>dim_users</code> is live. Six gates are running. Sabotage any one — MERGE drops new users, dedup stops, watermark closes early. The downstream analyst still gets a number. Just the wrong one. That's why every gate exists.`}
+            hook={`<code>dim_users</code> is live. Six gates are running. Sabotage any one: MERGE drops new users, dedup stops, watermark closes early. The downstream analyst still gets a number. Just the wrong one. That's why every gate exists.`}
             meta={[
               { k: 'Dataset', v: 'dim_users' },
               { k: 'Contracts', v: '6 · all load-bearing' },
@@ -730,7 +730,7 @@ function Ch9_Capstone({ chapter, internalMode }) {
         </p>
         <p className="prose">
           Click any <strong>sabotage button</strong> below the stage to break that contract. The break
-          happens live — rows start dropping, stalling, or lying. Hit "ask the question" to watch
+          happens live: rows start dropping, stalling, or lying. Hit "ask the question" to watch
           what the analyst gets in return.
         </p>
 
@@ -740,8 +740,8 @@ function Ch9_Capstone({ chapter, internalMode }) {
       <Takeaway items={[
         "<b>A pipeline is six contracts, not one SQL file.</b> Break any one and the whole downstream thesis falls.",
         "<b>Wait on the signal, not the data.</b> The signal table is the gate between <em>written</em> and <em>trusted</em>. Without DQ, it never fires.",
-        "<b>Wrong answers look identical to right answers.</b> The MERGE/WRITE/WATERMARK breaks still return a number — just the wrong one. That's why the contracts exist.",
-        `<b>Every file in this pipeline is a chapter you read.</b> When one feels confusing, re-open its chapter — don't patch around it.`,
+        "<b>Wrong answers look identical to right answers.</b> The MERGE/WRITE/WATERMARK breaks still return a number: just the wrong one. That's why the contracts exist.",
+        `<b>Every file in this pipeline is a chapter you read.</b> When one feels confusing, re-open its chapter: don't patch around it.`,
       ]} />
     </>
   );

@@ -54,7 +54,7 @@ function ShuffleSim() {
 
   return (
     <Panel eyebrow="live simulator · query planner" title="Shuffles & joins, in motion" meta={`${workers} workers`}
-           caption="Rows fly from source tables to workers. Push skew up until worker 0 chokes — that's the hashtag doing 80% of impressions.">
+           caption="Rows fly from source tables to workers. Push skew up until worker 0 chokes: that's the hashtag doing 80% of impressions.">
       <div className="qp-stage">
         <svg className="qp-svg" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet">
           <g>
@@ -150,7 +150,7 @@ function ShuffleSim() {
 
 function EngineMatrix() {
   const rows = [
-    { n: 'Presto', s: 'Interactive SQL', d: 'In-memory MPP. Seconds, not minutes. Great for dashboards. Dies on massive joins — no spill-to-disk.' },
+    { n: 'Presto', s: 'Interactive SQL', d: 'In-memory MPP. Seconds, not minutes. Great for dashboards. Dies on massive joins: no spill-to-disk.' },
     { n: 'Spark', s: 'ETL & pipelines', d: 'The workhorse. DataFrame/SQL, spills to disk, fault-tolerant. Most Airflow jobs are Spark.' },
     { n: 'Snowflake', s: 'Batch legacy', d: 'MapReduce bones. Slow but absurdly durable. Still alive for massive one-shot rewrites.' },
   ];
@@ -196,8 +196,8 @@ function Ch3_Compute({ chapter }) {
         <h2 className="h2">Watch a join actually happen.</h2>
         <p className="prose">
           A <strong>hash join</strong> partitions both sides by the join key and ships each partition to
-          one worker — cheap when keys are uniform, lethal when one key is hot. A <strong>broadcast
-          join</strong> copies the small side to every worker — cheap when one side fits in memory,
+          one worker: cheap when keys are uniform, lethal when one key is hot. A <strong>broadcast
+          join</strong> copies the small side to every worker: cheap when one side fits in memory,
           ruinous when the planner thinks 5 GB is "small."
         </p>
         <p className="prose">
@@ -224,7 +224,7 @@ function Ch3_Compute({ chapter }) {
       <Takeaway items={[
         "The planner decides <b>shuffle vs broadcast</b> from table stats. Bad stats → bad plan → worker explodes.",
         "<b>Skew is the #1 cause of pipeline failure at a modern tech company scale.</b> Always inspect your join keys.",
-        "Engine choice is part of job design — it's not the scheduler's job to rescue Presto from a 10 TB rewrite.",
+        "Engine choice is part of job design: it's not the scheduler's job to rescue Presto from a 10 TB rewrite.",
       ]} />
     </>
   );

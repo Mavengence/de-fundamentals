@@ -250,8 +250,8 @@ function LakehouseDiagram() {
  * ============================================================ */
 function EngineCards() {
   const engines = [
-    { n: 'Presto / Trino', kind: 'MPP, in-memory', fits: 'Interactive dashboards. Sub-second to tens of seconds.', not: 'Hour-long ETL jobs — it dies, can\'t retry.', icon: <svg viewBox="0 0 24 24" width="22" height="22"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="1.5"/><path d="M8 12h8M12 8v8" stroke="currentColor" strokeWidth="1.5"/></svg> },
-    { n: 'Spark / Databricks', kind: 'distributed, fault-tolerant', fits: 'Heavy ETL. Big joins. Anything that must finish.', not: 'Quick ad-hoc — the JVM spin-up alone eats your latency.', icon: <svg viewBox="0 0 24 24" width="22" height="22"><path d="M4 12l4-8 4 6 4-4 4 10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/></svg> },
+    { n: 'Presto / Trino', kind: 'MPP, in-memory', fits: 'Interactive dashboards. Sub-second to tens of seconds.', not: 'Hour-long ETL jobs: it dies, can\'t retry.', icon: <svg viewBox="0 0 24 24" width="22" height="22"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="1.5"/><path d="M8 12h8M12 8v8" stroke="currentColor" strokeWidth="1.5"/></svg> },
+    { n: 'Spark / Databricks', kind: 'distributed, fault-tolerant', fits: 'Heavy ETL. Big joins. Anything that must finish.', not: 'Quick ad-hoc: the JVM spin-up alone eats your latency.', icon: <svg viewBox="0 0 24 24" width="22" height="22"><path d="M4 12l4-8 4 6 4-4 4 10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/></svg> },
     { n: 'Snowflake', kind: 'cloud DW → lakehouse', fits: 'Managed. Zero-ops. Good price/perf on mid-scale.', not: 'Anywhere you need to read external Parquet from a non-Snowflake engine.', icon: <svg viewBox="0 0 24 24" width="22" height="22"><path d="M12 3v18M4.5 7.5l15 9M4.5 16.5l15-9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg> },
   ];
   return (
@@ -288,13 +288,13 @@ function Ch0_Fundamentals({ chapter, internalMode }) {
         <SectionLabel n="0.1">Decoupling storage from compute</SectionLabel>
         <h2 className="h2">The quiet shift that changed every warehouse.</h2>
         <p className="prose">
-          A decade ago, a warehouse was a box. Oracle, Teradata, Vertica — one appliance owned both the
+          A decade ago, a warehouse was a box. Oracle, Teradata, Vertica: one appliance owned both the
           disks and the query engine. You bought them together, you scaled them together, and if you
           wanted to try a new engine you migrated terabytes first.
         </p>
         <p className="prose">
-          The <b>lakehouse</b> move was to put the bytes in a shared object store — S3, GCS, or
-          GCS, or Azure Blob — as open columnar files (Parquet, ORC) and let <em>any</em> engine
+          The <b>lakehouse</b> move was to put the bytes in a shared object store: S3, GCS, or
+          GCS, or Azure Blob: as open columnar files (Parquet, ORC) and let <em>any</em> engine
           read them. Compute became a job, not a server. Storage became a commodity.
         </p>
 
@@ -306,8 +306,8 @@ function Ch0_Fundamentals({ chapter, internalMode }) {
         <SectionLabel n="0.2">The layers</SectionLabel>
         <h2 className="h2">Seven layers, one query.</h2>
         <p className="prose">
-          A warehouse query touches seven layers. Most engineers only think about two —
-          the SQL they wrote and the table they named — and are baffled when things break in between.
+          A warehouse query touches seven layers. Most engineers only think about two -
+          the SQL they wrote and the table they named, and are baffled when things break in between.
           The stack, bottom-up: <b>physical storage</b> (SSD blob tier), <b>blob</b> (S3),
           <b> file format</b> (Parquet · Parquet · Avro), <b>table abstraction</b> (namespaces → tables → partitions),
           <b> catalog</b> (Glue Catalog), <b>query engine</b> (Presto · Spark), <b>application</b> (Hex · dashboards).
@@ -321,7 +321,7 @@ function Ch0_Fundamentals({ chapter, internalMode }) {
         <SectionLabel n="0.3">A byte's journey</SectionLabel>
         <h2 className="h2">From SELECT to flash tier, and back.</h2>
         <p className="prose">
-          Let's make storage tangible. Here's a single byte — the value of <code>user_email</code> for one row —
+          Let's make storage tangible. Here's a single byte: the value of <code>user_email</code> for one row -
           traced through every stop from the SQL statement to the physical bytes on disk. Cold and warm caches
           have wildly different latency profiles; metastore and blob lookups are the two stops that dominate a
           cold run.
@@ -334,7 +334,7 @@ function Ch0_Fundamentals({ chapter, internalMode }) {
         <SectionLabel n="0.4">Row vs columnar, visualized</SectionLabel>
         <h2 className="h2">Why analytics loves columns.</h2>
         <p className="prose">
-          In a row layout every record's fields are stored together — perfect for "fetch user 42" but
+          In a row layout every record's fields are stored together: perfect for "fetch user 42" but
           catastrophic for "average <code>revenue</code> across a billion rows". The scanner has no choice
           but to touch every byte just to find the one column you asked for.
         </p>
@@ -347,7 +347,7 @@ function Ch0_Fundamentals({ chapter, internalMode }) {
         <Scanner />
 
         <p className="prose" style={{marginTop: 24}}>
-          Columnar storage compresses beautifully because values in one column are homogenous — a column
+          Columnar storage compresses beautifully because values in one column are homogenous: a column
           of timestamps, a column of country codes. Snappy, ZSTD, and run-length encoding routinely
           shrink a stripe <strong>3–10×</strong>. The scan head has less to read <em>and</em> the bytes it
           reads unpack cheaply.
@@ -360,7 +360,7 @@ function Ch0_Fundamentals({ chapter, internalMode }) {
         <h2 className="h2">From CSV to Iceberg.</h2>
         <p className="prose">
           There's a layered vocabulary worth getting right. <b>File format</b> is how bytes sit on disk.
-          <b> Table format</b> is a catalog of files that makes them behave like a table — transactional,
+          <b> Table format</b> is a catalog of files that makes them behave like a table: transactional,
           evolvable, time-travelable.
         </p>
         <FormatSpectrum />
@@ -402,7 +402,7 @@ function Ch0_Fundamentals({ chapter, internalMode }) {
         <SectionLabel n="0.8">Connectors: same SQL, different physics</SectionLabel>
         <h2 className="h2">The connector chooses the physics.</h2>
         <p className="prose">
-          Trino (the Presto fork) ships a pluggable connector interface — the same SQL statement can compile down to fanning
+          Trino (the Presto fork) ships a pluggable connector interface: the same SQL statement can compile down to fanning
           out across a thousand S3 blobs, or reading a few megabytes from local SSD, or answering
           straight from coordinator memory. Latency can vary by <b>six orders of magnitude</b> with no change
           to the query text.
@@ -413,16 +413,16 @@ function Ch0_Fundamentals({ chapter, internalMode }) {
       {/* --- Anti-patterns --- */}
       <AntiPatterns items={[
         "<b>Treating a data lake like a relational DB.</b> <code>UPDATE one_row WHERE id = ...</code> on raw Parquet rewrites an entire file. Use a table format (Iceberg/Delta) that supports row-level changes, or batch the update.",
-        "<b>The small-files problem.</b> 10 000 × 1 MB Parquet files is worse than 10 × 1 GB — file-listing overhead, per-file footer reads, and task spin-up dominate. Compact on a schedule.",
+        "<b>The small-files problem.</b> 10 000 × 1 MB Parquet files is worse than 10 × 1 GB: file-listing overhead, per-file footer reads, and task spin-up dominate. Compact on a schedule.",
         "<b>Landing raw CSV in the warehouse.</b> Types unknown, no column pruning, no compression. Always convert to Parquet at ingest.",
         "<b><code>SELECT *</code> on a 300-column fact table.</b> Undoes everything columnar gave you. Ask for exactly the columns you need.",
-        "<b>Reading Trino docs and assuming they apply to Presto.</b> The forks diverged around 2020 — function names, connector behavior, and optimizer defaults all differ.",
+        "<b>Reading Trino docs and assuming they apply to Presto.</b> The forks diverged around 2020: function names, connector behavior, and optimizer defaults all differ.",
         "<b>Treating SQL as opaque magic.</b> Every query has a plan, and the plan is inspectable. <code>EXPLAIN ANALYZE</code> before you tune anything.",
-        "<b>Choosing Spark for a job Presto would finish in seconds.</b> Spark cold-start is 2–10× Presto's — the JVM warm-up alone eats any interactive budget.",
+        "<b>Choosing Spark for a job Presto would finish in seconds.</b> Spark cold-start is 2–10× Presto's: the JVM warm-up alone eats any interactive budget.",
       ]} />
 
       <Takeaway items={[
-        "<b>A warehouse is seven layers.</b> Knowing the layer means knowing the failure mode — metastore down is not the same as SSD tier slow.",
+        "<b>A warehouse is seven layers.</b> Knowing the layer means knowing the failure mode: metastore down is not the same as SSD tier slow.",
         "<b>SQL → AST → logical → physical → stages → tasks.</b> Five transformations between your text and your bytes. All inspectable.",
         "<b>The connector chooses the physics.</b> Same SQL, 1000× latency range. Snowflake ≠ Redis-backed cache ≠ System tables.",
         "Columnar formats turn analytics into <b>skip-most-of-the-disk</b> operations. Table formats add ACID and time travel on top.",

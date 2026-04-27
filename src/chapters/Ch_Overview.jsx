@@ -10,16 +10,16 @@ const { useState, useEffect, useRef, useMemo } = React;
  * ============================================================ */
 
 const OV_STAGES = [
-  { id: 'ingest', chap: 'ingest', n: '01', title: 'Ingest',      tag: 'where data is born',        hex: '#7C5CFF', icon: 'ingest', body: "Two clocks per event: when it happened, when you saw it. Mobile lag decides what you lose — and you can't see what you dropped." },
+  { id: 'ingest', chap: 'ingest', n: '01', title: 'Ingest',      tag: 'where data is born',        hex: '#7C5CFF', icon: 'ingest', body: "Two clocks per event: when it happened, when you saw it. Mobile lag decides what you lose, and you can't see what you dropped." },
   { id: 'stream', chap: 'stream', n: '02', title: 'Streaming',   tag: 'real-time bridge',          hex: '#22D3EE', icon: 'stream', body: 'Sub-second dashboards via ClickHouse. Watermarks close windows. Fast loses on completeness; slow loses on latency.' },
   { id: 'store',  chap: 'store',  n: '03', title: 'Store',       tag: 'where data lives',          hex: '#2D7DFF', icon: 'store',  body: 'Yesterday ⊕ today, forever forward. One bug on Day 3 compounds invisibly until someone backtracks and backfills every row.' },
-  { id: 'comp',   chap: 'comp',   n: '04', title: 'Compute',     tag: 'how data is read',          hex: '#FF7A59', icon: 'comp',   body: 'The planner bets on stale statistics. One hot join key routes 80% of traffic to worker 0 — two minutes becomes two hours.' },
-  { id: 'orch',   chap: 'orch',   n: '05', title: 'Orchestrate', tag: 'Airflow & idempotency',     hex: '#31A24C', icon: 'orch',   body: 'Python DAGs. INSERT OVERWRITE. A task that ran twice must equal a task that ran once — non-negotiable.' },
-  { id: 'qual',   chap: 'qual',   n: '06', title: 'Quality',     tag: 'ran ≠ right',               hex: '#E41E3F', icon: 'qual',   body: 'Row counts, freshness, uniqueness. A bad row is worse than a missing row — the bad one ships to the exec deck.' },
+  { id: 'comp',   chap: 'comp',   n: '04', title: 'Compute',     tag: 'how data is read',          hex: '#FF7A59', icon: 'comp',   body: 'The planner bets on stale statistics. One hot join key routes 80% of traffic to worker 0: two minutes becomes two hours.' },
+  { id: 'orch',   chap: 'orch',   n: '05', title: 'Orchestrate', tag: 'Airflow & idempotency',     hex: '#31A24C', icon: 'orch',   body: 'Python DAGs. INSERT OVERWRITE. A task that ran twice must equal a task that ran once: non-negotiable.' },
+  { id: 'qual',   chap: 'qual',   n: '06', title: 'Quality',     tag: 'ran ≠ right',               hex: '#E41E3F', icon: 'qual',   body: 'Row counts, freshness, uniqueness. A bad row is worse than a missing row: the bad one ships to the exec deck.' },
   { id: 'disc',   chap: 'disc',   n: '07', title: 'Discover',    tag: 'six shortcuts, four hours', hex: '#B8770A', icon: 'disc',   body: 'DataHub + OpenLineage. Owners in the catalog. Grepping dashboards for a metric definition in 2025? Doing it wrong.' },
   { id: 'serve',  chap: 'serve',  n: '08', title: 'Serve',       tag: 'metrics & semantic',        hex: '#0091FF', icon: 'serve',  body: 'Five teams, five DAU numbers, one meeting. The metrics layer is why that sentence is past tense.' },
   { id: 'gov',    chap: 'gov',    n: '09', title: 'Govern',      tag: 'the deploy gate',           hex: '#8B5CF6', icon: 'gov',    body: "An unannotated PII column never ships. The deploy gate reads the spec, not the PR author's intentions." },
-  { id: 'cap',    chap: 'cap',    n: '10', title: 'Capstone',    tag: 'one pipeline, six gates',   hex: '#E85D04', icon: 'cap',    body: 'All six contracts, live and sabotage-able. Break one — the analyst still gets a number. Wrong number.' },
+  { id: 'cap',    chap: 'cap',    n: '10', title: 'Capstone',    tag: 'one pipeline, six gates',   hex: '#E85D04', icon: 'cap',    body: 'All six contracts, live and sabotage-able. Break one: the analyst still gets a number. Wrong number.' },
 ];
 
 function StageIcon({ kind, color, size = 18 }) {
@@ -119,7 +119,7 @@ function PipelineBar({ goTo, activeId, setActiveId }) {
             <feGaussianBlur stdDeviation="1.6"/>
           </filter>
         </defs>
-        {/* gradient accent line — single, clean track */}
+        {/* gradient accent line: single, clean track */}
         <line x1={PAD_L} y1={trackY} x2={W - PAD_R} y2={trackY}
               stroke="url(#ovTrack)" strokeWidth="2" vectorEffect="non-scaling-stroke"
               strokeLinecap="round"/>
@@ -140,7 +140,7 @@ function PipelineBar({ goTo, activeId, setActiveId }) {
         })}
       </svg>
 
-      {/* Stops — flex row of clickable cards */}
+      {/* Stops: flex row of clickable cards */}
       <div className="ov-pipe-stops">
         {positions.map(p => {
           const isActive = activeId === p.id;
@@ -176,7 +176,7 @@ function Ch_Overview({ chapter, internalMode, goTo }) {
 
   return (
     <>
-      {/* ===== Hero — tight, marketing ===== */}
+      {/* ===== Hero: tight, marketing ===== */}
       <section className="ov2-hero">
         <div className="ov2-eyebrow">
           <span className="ov2-pill">DE · v6</span>
@@ -188,7 +188,7 @@ function Ch_Overview({ chapter, internalMode, goTo }) {
         </h1>
         <p className="ov2-sub">
           The system, not the tools. <b>10 chapters · 15 live simulators · one capstone you can break.</b>
-          No slides, no toy code — by the end, you'll know where a pipeline fails before it does.
+          No slides, no toy code: by the end, you'll know where a pipeline fails before it does.
         </p>
         <div className="ov2-cta">
           <button className="btn btn-primary ov2-btn-primary" onClick={() => goTo('fund')}>
@@ -228,7 +228,7 @@ function Ch_Overview({ chapter, internalMode, goTo }) {
         </div>
       </section>
 
-      {/* ===== Tools — single compact row ===== */}
+      {/* ===== Tools: single compact row ===== */}
       <section className="ov2-tools">
         <span className="ov2-tools-lab">Real tools, real behavior:</span>
         {['Kafka', 'Flink', 'Spark', 'Trino', 'Snowflake', 'ClickHouse', 'Airflow', 'dbt', 'Great Expectations', 'DataHub', 'Cube', 'Access Gateway'].map(n => (

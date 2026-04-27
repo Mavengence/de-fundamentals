@@ -78,7 +78,7 @@ function WatermarkSim() {
             <line x1={watermark} y1={40} x2={watermark} y2={360} stroke="var(--theme-blue)" strokeWidth={3} />
             <line x1={watermark} y1={40} x2={watermark} y2={360} stroke="transparent" strokeWidth={22} />
             <rect x={watermark - 9} y={30} width={18} height={18} rx={3} fill="var(--theme-blue)" />
-            <text x={watermark} y={22} textAnchor="middle" style={{fontFamily:'var(--font-mono)',fontSize:10,fontWeight:800,fill:'var(--theme-blue)',letterSpacing:'0.08em'}}>WATERMARK — drag</text>
+            <text x={watermark} y={22} textAnchor="middle" style={{fontFamily:'var(--font-mono)',fontSize:10,fontWeight:800,fill:'var(--theme-blue)',letterSpacing:'0.08em'}}>WATERMARK: drag</text>
           </g>
         </svg>
       </div>
@@ -118,7 +118,7 @@ function IngestStreams() {
       <div className="ccard">
         <div className="ccard-t">ClickHouse</div>
         <div className="ccard-n">Sampled · real-time</div>
-        <div className="ccard-d">1-in-N rows. Sub-minute freshness. Perfect for <em>"is something on fire?"</em> Never sum raw sample counts and expect truth — always multiply by the sample rate.</div>
+        <div className="ccard-d">1-in-N rows. Sub-minute freshness. Perfect for <em>"is something on fire?"</em> Never sum raw sample counts and expect truth: always multiply by the sample rate.</div>
       </div>
       <div className="ccard">
         <div className="ccard-t">Snowflake</div>
@@ -135,7 +135,7 @@ function Ch1_Ingest({ chapter }) {
       <Hero accent={chapter.hex}
             eyebrow={`Chapter ${chapter.n} · ${chapter.time}`}
             title="Ingest: <span class='accent'>where data is born,</span> and what it costs to trust it."
-            hook="Events are captured live on the edge and land in two places: a <strong>sampled, real-time store</strong> (ClickHouse) for on-call; and an <strong>exact, batch warehouse</strong> (Snowflake) for accounting. The bridge between them is a watermark — a line past which late events are dropped. Drag it wrong and you ship wrong numbers."
+            hook="Events are captured live on the edge and land in two places: a <strong>sampled, real-time store</strong> (ClickHouse) for on-call; and an <strong>exact, batch warehouse</strong> (Snowflake) for accounting. The bridge between them is a watermark: a line past which late events are dropped. Drag it wrong and you ship wrong numbers."
             meta={[
               { k: 'Source', v: '<span class="chip">ClickHouse</span><span class="chip">Loggers</span><span class="chip">CDC</span>' },
               { k: 'Sink', v: 'Snowflake · Iceberg tables' },
@@ -146,7 +146,7 @@ function Ch1_Ingest({ chapter }) {
         <SectionLabel n="1.1">Two clocks, one event</SectionLabel>
         <h2 className="h2">Event time vs processing time.</h2>
         <p className="prose">
-          Every event carries two timestamps. <b>Event time</b> is when it happened — a tap on a phone, an
+          Every event carries two timestamps. <b>Event time</b> is when it happened: a tap on a phone, an
           ad impression rendered. <b>Processing time</b> is when your stream actually saw it. Mobile
           clients, retries, weak cell signal, and simple clock skew make these diverge. Any system that
           pretends they're the same ships the wrong numbers.
@@ -163,12 +163,12 @@ function Ch1_Ingest({ chapter }) {
         <h2 className="h2">When do you stop waiting?</h2>
         <p className="prose">
           Drag the blue line. Green dots are on-time events; amber dots arrived late. Anything past the
-          watermark is <em>dropped</em> — gone from Snowflake. Too tight and you lose real data; too loose and
+          watermark is <em>dropped</em>: gone from Snowflake. Too tight and you lose real data; too loose and
           dashboards lag by an hour. There is no free correct answer.
         </p>
         <WatermarkSim />
         <p className="prose" style={{marginTop: 22}}>
-          In production, watermarks are typically <strong>15–60 minutes</strong> behind real-time — long
+          In production, watermarks are typically <strong>15–60 minutes</strong> behind real-time: long
           enough to absorb mobile stragglers, short enough that dashboards feel live. Finance-critical
           pipelines push the watermark out to hours and accept the delay.
         </p>
@@ -207,7 +207,7 @@ function Ch1_Ingest({ chapter }) {
       <AntiPatterns items={[
         "<b>Summing raw ClickHouse counts without the sample rate.</b> A 1:1000 sample reports 1000× fewer impressions. Always multiply by <code>sample_rate</code>.",
         "<b>Watermark = now.</b> You'll drop every mobile event that round-trips through a cell tower. Give it at least 15 minutes of grace.",
-        "<b>Treating flink2warehouse as eventually consistent.</b> It isn't. Once the window closes, late events are <em>gone</em> — no backfill, no retry will save them.",
+        "<b>Treating flink2warehouse as eventually consistent.</b> It isn't. Once the window closes, late events are <em>gone</em>: no backfill, no retry will save them.",
         "<b>Reading <code>NOW()</code> inside an ingest job.</b> A backfill in May for last Tuesday becomes unreproducible. Use <code>&lt;DATEID&gt;</code>.",
       ]} />
 
@@ -220,7 +220,7 @@ function Ch1_Ingest({ chapter }) {
       <Takeaway items={[
         "Every event has two clocks: <b>event time</b> and <b>processing time</b>. Late arrivals live in the gap between them.",
         "The <b>watermark</b> is the price you pay to close a window. Tighter = lossier. Looser = later.",
-        "<b>ClickHouse</b> is sampled and fast; <b>Snowflake</b> is exact and slow. Use both — know which question each one answers.",
+        "<b>ClickHouse</b> is sampled and fast; <b>Snowflake</b> is exact and slow. Use both: know which question each one answers.",
       ]} />
     </>
   );

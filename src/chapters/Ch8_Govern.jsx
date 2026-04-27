@@ -122,7 +122,7 @@ function PermissionGateSim({ internalMode, reduceMotion }) {
               <code>{chipLabel(c.id)}</code>
             </div>
           ))}
-          <div className="pg-rail-hint">Click a chip, then click a column — or drag.</div>
+          <div className="pg-rail-hint">Click a chip, then click a column, or drag.</div>
           <label className="pg-zone-toggle">
             <input type="checkbox" checked={zoneRequired} onChange={e => setZoneRequired(e.target.checked)} />
             <span>Catalog requires Policy Zone <code>pii_secure</code></span>
@@ -232,7 +232,7 @@ function Ch8_Govern({ chapter, internalMode }) {
         <SectionLabel n="9.1">Actor annotations</SectionLabel>
         <h2 className="h2">Every column declares what it identifies.</h2>
         <p className="prose">
-          A column isn't just a type — it's also a <em>subject</em>. <code>employee_email</code>
+          A column isn't just a type: it's also a <em>subject</em>. <code>employee_email</code>
           identifies a person. <code>service_account_id</code> identifies an application.
           <code>contractor_id</code> identifies a contingent worker. Three canonical actors cover
           &gt;95% of cases:
@@ -246,7 +246,7 @@ function Ch8_Govern({ chapter, internalMode }) {
           <div className="ccard">
             <div className="ccard-t">{N.canonicalApp}</div>
             <div className="ccard-n">Identifies an application / service</div>
-            <div className="ccard-d">Service account IDs, bot tokens, app UUIDs. Not human PII, but still sensitive — lives in a different ACL bucket.</div>
+            <div className="ccard-d">Service account IDs, bot tokens, app UUIDs. Not human PII, but still sensitive: lives in a different ACL bucket.</div>
           </div>
           <div className="ccard">
             <div className="ccard-t">{N.canonicalCW}</div>
@@ -272,7 +272,7 @@ function Ch8_Govern({ chapter, internalMode }) {
         <SectionLabel n="9.3">Policy zones & opaque transforms</SectionLabel>
         <p className="prose">
           A <strong>Policy Zone</strong> restricts a column so it's only readable inside a specific
-          compute environment — for example, a regionally-isolated cluster that's approved for PII.
+          compute environment: for example, a regionally-isolated cluster that's approved for PII.
           Opaque transforms (UDFs that take PII in and emit derived non-PII out) must run with
           <code> network=NO_NETWORK</code> so they can't exfiltrate. Together these cover the
           "processing PII without leaking PII" case.

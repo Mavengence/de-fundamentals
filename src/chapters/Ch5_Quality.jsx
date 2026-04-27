@@ -165,13 +165,13 @@ function TrustMeterSim({ reduceMotion, internalMode }) {
               <div key={c.id} className={`tm-bd ${checks[c.id] ? 'on' : 'off'}`}>
                 <span className="tm-bd-dot" />
                 <span className="tm-bd-n">{c.name}</span>
-                <span className="tm-bd-w">{checks[c.id] ? `+${c.weight}` : '—'}</span>
+                <span className="tm-bd-w">{checks[c.id] ? `+${c.weight}` : '-'}</span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* downstream impact — what the analyst actually sees */}
+        {/* downstream impact: what the analyst actually sees */}
         <div className="tm-impact">
           <div className="tm-impact-head">
             <div className="tm-impact-eyebrow">downstream dashboard · what the analyst sees</div>
@@ -271,8 +271,8 @@ function TrustMeterSim({ reduceMotion, internalMode }) {
         <button className="btn btn-primary" onClick={run}>▶ Run 30 days</button>
         <button className="btn" onClick={reset}>Reset</button>
         <div style={{marginLeft:'auto', fontFamily:'var(--font-mono)', fontSize:11, color:'var(--fg-2)'}}>
-          {status === 'breach' && <span style={{color:'var(--theme-red)'}}>✕ Corrupt data shipped — gate was off</span>}
-          {status === 'stale' && <span style={{color:'#8B5C00'}}>✓ Gate held — signal never landed, oncall notified</span>}
+          {status === 'breach' && <span style={{color:'var(--theme-red)'}}>✕ Corrupt data shipped: gate was off</span>}
+          {status === 'stale' && <span style={{color:'#8B5C00'}}>✓ Gate held: signal never landed, oncall notified</span>}
           {status === 'ok' && <span style={{color:'var(--theme-green)'}}>✓ Clean run · 30/30</span>}
         </div>
       </div>
@@ -287,7 +287,7 @@ function Ch5_Quality({ chapter, internalMode }) {
       <Hero accent={chapter.hex}
             eyebrow={`Chapter ${chapter.n} · ${chapter.time}`}
             title={`Quality: a pipeline that <span class='accent'>ran</span> is not a pipeline that's <span class='accent'>right</span>.`}
-            hook={`The hardest failures to catch are the ones that succeed. The task returns zero, writes a tiny partition, lands on time — and the number on the CFO's deck is wrong. Data-quality gates turn "the pipeline ran" into "the number is trustworthy." That's the contract the rest of the warehouse depends on.`}
+            hook={`The hardest failures to catch are the ones that succeed. The task returns zero, writes a tiny partition, lands on time, and the number on the CFO's deck is wrong. Data-quality gates turn "the pipeline ran" into "the number is trustworthy." That's the contract the rest of the warehouse depends on.`}
             meta={[
               { k: 'Primitive', v: N.dqOperator },
               { k: 'Barrier', v: `signal table + ${N.waitForSignal}` },
@@ -316,7 +316,7 @@ function Ch5_Quality({ chapter, internalMode }) {
         <p className="prose">
           A DQ check that <em>runs after the data lands</em> but <em>before anyone reads it</em> is the
           barrier. When the check passes, the pipeline writes a tiny row to a <strong>signal table</strong>.
-          Every downstream consumer uses <code>{N.waitForSignal}</code> to block on that signal — not on the
+          Every downstream consumer uses <code>{N.waitForSignal}</code> to block on that signal: not on the
           data table itself. If the check fails, the signal never lands, downstreams wait, and oncall is
           auto-paged with an SLA-tier-aware ticket.
         </p>
@@ -324,7 +324,7 @@ function Ch5_Quality({ chapter, internalMode }) {
           <div className="ccard">
             <div className="ccard-t">Without the barrier</div>
             <div className="ccard-n">Downstream waits on the data table</div>
-            <div className="ccard-d">Partial or corrupt data is readable the moment the write commits. A retry is too late — consumers already ran.</div>
+            <div className="ccard-d">Partial or corrupt data is readable the moment the write commits. A retry is too late: consumers already ran.</div>
           </div>
           <div className="ccard">
             <div className="ccard-t">With the barrier</div>
@@ -376,7 +376,7 @@ function Ch5_Quality({ chapter, internalMode }) {
 
       <BestPractices items={[
         "<b>Every fact table</b> gets row-count band + freshness + uniqueness, minimum. Dimension tables add schema-match.",
-        "<b>Signal tables are first-class citizens.</b> Name them <code>&lt;table&gt;__signal</code>. They outlive the pipeline — replays, backfills, and audits all read them.",
+        "<b>Signal tables are first-class citizens.</b> Name them <code>&lt;table&gt;__signal</code>. They outlive the pipeline: replays, backfills, and audits all read them.",
         `<b>SLA-tier your tasks.</b> 6h for ads/exec-deck inputs, 24h for most facts, 48h for discovery/rollups. The tier is the pager contract.`,
         "<b>DQ config in version control, not UI.</b> Checks drift; code reviews catch drift; dashboards don't.",
       ]} />
