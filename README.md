@@ -1,105 +1,166 @@
 # Data Engineering Fundamentals
 
-> Think like a data engineer by lunch.
+<div align="center">
 
-**10 chapters · 15 live simulators · no signup · no build step · runs in your browser**
+**Think like a data engineer by lunch.**
 
-[**→ Open the live demo**](https://www.timloehr.me/de-fundamentals/) &nbsp;·&nbsp;
-[**⭐ Star on GitHub**](https://github.com/Mavengence/de-fundamentals)
+*The only DE course where every concept is a live simulator — not a slide, not a video.*
 
-<!-- 
-  ADD A GIF HERE before the public launch.
-  Record 30s: Overview pipeline hover → drag the watermark → flip Scanner to columnar → break a Capstone gate.
-  Tools: Cleanshot X, QuickTime + gifski, or Loom.
-  Target: <5 MB, 800px wide, 15fps.
--->
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Open_Course-%2306B6D4?style=for-the-badge)](https://www.timloehr.me/de-fundamentals/)
+[![GitHub Stars](https://img.shields.io/github/stars/Mavengence/data-engineering-fundamentals?style=for-the-badge&color=FDEE21)](https://github.com/Mavengence/data-engineering-fundamentals/stargazers)
+[![License: MIT](https://img.shields.io/badge/License-MIT-white?style=for-the-badge)](LICENSE)
+
+</div>
 
 ---
 
-## What you'll learn
+<!--
+  📸 ADD A DEMO GIF HERE — this is the #1 thing that drives stars.
+  Record 30 seconds:
+    1. Hover pipeline dots on the Overview → detail cards appear
+    2. Ch0: flip Scanner from row to columnar → 99 columns vanish, one glows blue
+    3. Ch3: drag skew slider to 90% → worker 0 overflows with OVERLOADED label
+    4. Ch9: click a sabotage button → rows burst at the gate
+  Tools: Cleanshot X, QuickTime + gifski, Kap, or Loom.
+  Target: < 5 MB, 800px wide, 15 fps.
+-->
 
-The system, not the tools. By the end you know *where* a pipeline fails before it does.
+## What this is
 
-| # | Chapter | The lesson |
-|---|---------|-----------|
-| 00 | Core Fundamentals | Why columnar skips 99% of disk. What Parquet actually is. |
-| 01 | Ingest | Two clocks per event. The one that's wrong decides what you lose. |
+A browser-native crash course on building production data pipelines.
+10 chapters. 15 live simulators. No slides. No video. No account.
+
+The course treats every concept as a **failure mode** — you learn what watermarks are
+by watching events drop when you drag the wrong window. You learn what key skew is by
+cranking a slider until worker 0 overflows. You learn what idempotency means by watching
+a retry double-count every row in real time.
+
+**By the end you know where a pipeline fails before it does.**
+
+---
+
+## Try it now — no install
+
+```
+https://www.timloehr.me/de-fundamentals/
+```
+
+Or run it locally in 30 seconds:
+
+```bash
+git clone https://github.com/Mavengence/data-engineering-fundamentals.git
+cd data-engineering-fundamentals
+python3 .serve.py          # → http://127.0.0.1:5002
+```
+
+No npm. No build step. Open `index.html` directly in Chrome and it also works.
+
+---
+
+## What makes this different
+
+| Most DE resources | This course |
+|---|---|
+| 9-week bootcamp with homework | ~90 minutes, self-paced |
+| Explains tools (Kafka, Spark, dbt) | Explains the *problems* that made those tools necessary |
+| Videos you watch passively | Simulators you break on purpose |
+| Correct output, no failure modes | Every concept taught through its failure mode |
+| Requires a cloud account or Docker | Runs entirely in your browser |
+
+---
+
+## The 10 chapters
+
+| # | Chapter | The lesson in one line |
+|---|---------|----------------------|
+| 00 | Core Fundamentals | Why columnar skips 99% of disk — and what Parquet actually is |
+| 01 | Ingest | Two clocks per event. The wrong one decides what you lose. |
 | 02 | Streaming | Fast loses on completeness; slow loses on latency. Pick one. |
 | 03 | Store | One bad day on Day 3 poisons every day that follows it. |
 | 04 | Compute | The planner bets on statistics. Wrong stats, wrong plan. |
 | 05 | Orchestrate | A task that ran twice must equal a task that ran once. Non-negotiable. |
-| 06 | Quality | A bad row is worse than a missing row — the bad one ships. |
+| 06 | Quality | A bad row is worse than a missing row — the bad one ships to the exec deck. |
 | 07 | Discover | Six commands. The answer in under 3 seconds. Always. |
 | 08 | Serve | Five teams. Five DAU numbers. One meeting. |
 | 09 | Govern | An unannotated PII column never ships. |
-| 10 | Capstone | Break any one of six contracts. Watch exactly what fails. |
+| 10 | Capstone | Break any one of six contracts. Watch exactly what fails downstream. |
 
 ---
 
-## The simulators
+## The 15 simulators
 
-15 live simulators — every concept is interactive, not described:
+Every concept has a live sim. Here are the best ones:
 
-- **Column scanner** — flip row ↔ columnar; 99 columns dim to near-invisible, one glows blue
-- **Watermark drag** — drag the event-time window; watch late events drop in real time
-- **Hash-join shuffle** — push skew to 90%; worker 0 overflows while the others idle
-- **7-layer stack** — hover any infrastructure layer; trace a query from SQL to disk and back
-- **Byte trace** — follow one byte: cold Metastore lookup (80ms) vs warm cache (0.04ms)
-- **Idempotent backfill** — flip `INSERT OVERWRITE` → `INSERT`; retry doubles every row
-- **Cumulative table** — scrub 5 days; Day 3 has a bug; watch drift compound forward
-- **Trust meter** — disable row-count checks; watch bad data reach the exec dashboard
-- **Discovery speedrun** — 5 timed questions; find the table owner in under 3 seconds
-- **Lineage camera** — click any node; upstream/downstream highlights with animated flow
-- **Metrics query** — governed vs ungoverned; same question, same warehouse, different answer
-- **Permission gate** — drag actor chips onto PII columns; Access Gateway blocks bad deploys
-- **Capstone pipeline** — six gates, six sabotage buttons; rows burst at broken contracts
+**Column scanner** — flip row to columnar. 99 columns dim to near-invisible; the target
+column glows blue. The progress bar covers 100x more ground. You feel the 100x speedup
+before you read the explanation.
 
----
+**Watermark drag** — drag the event-time window left and right. Events turn amber and
+drop as your window closes. The late-event problem becomes physical.
 
-## Run it in 30 seconds
+**Hash-join shuffle** — drag key skew to 90%. Worker 0 overflows with a pulsing
+OVERLOADED banner. The other workers dim to near-empty. You see the hot-key problem
+in your peripheral vision.
 
-No npm. No build step. No account.
+**Idempotent backfill** — flip INSERT OVERWRITE to INSERT. Introduce a failure. Watch
+the retry double-count every row. Flip back. Problem gone.
 
-```bash
-git clone https://github.com/Mavengence/de-fundamentals.git
-cd de-fundamentals
-python3 .serve.py          # → http://127.0.0.1:5002
-```
+**Guided Capstone** — six contracts, six sabotage buttons. Hit "guided tutorial" and
+watch 48 seconds of automated chaos: each contract breaks in turn, rows burst at the
+gate, the downstream number goes wrong. Then everything restores.
 
-Or just open `index.html` directly in Chrome — it works without a server.
-
----
-
-## Why this exists
-
-I built this material for a production data team's onboarding program.
-After running it internally, I sanitized and open-sourced it because every
-DE resource I've used was either a 9-week bootcamp or a list of Medium posts.
-Neither teaches you *why* the pipeline breaks. This one does.
-
-The course treats every concept as a failure mode: watermarks exist because
-you can't tell what you dropped, idempotency exists because retries are
-inevitable, governance exists at write-time because read-time is too late.
+*Plus:* byte latency trace, 7-layer stack, SQL planner, streaming conveyor, cumulative
+table scrubber, trust meter, discovery speedrun, lineage camera, metrics query, and
+permission gate.
 
 ---
 
 ## Tech
 
-Vanilla React 18 via CDN · Babel standalone · plain CSS · no bundler · no `npm install`.
+Vanilla React 18 via CDN · Babel standalone · plain CSS · no bundler · no npm install.
 
-Everything lives in `src/chapters/` (JSX per chapter) and `styles.css`.
-Fork it, clone it, teach with it.
+The whole course is a single `index.html` that loads chapter files from `src/chapters/`.
+Fork it. Teach with it. Embed it in your own onboarding.
+
+```
+data-engineering-fundamentals/
+├── index.html              ← entry point, loads everything
+├── styles.css              ← all styles (~3,700 lines)
+├── lib/theme-tokens.css    ← design tokens
+├── src/chapters/           ← one JSX file per chapter
+│   ├── App.jsx             ← sidebar + routing
+│   ├── shared.jsx          ← Hero, Panel, Takeaway, Callout components
+│   ├── Ch_Overview.jsx     ← animated pipeline overview
+│   ├── Ch0_Fundamentals.jsx
+│   ├── Ch0_StackSims.jsx   ← LayerCake, ByteTrace, SqlDecoder, ConnectorSwitcher
+│   ├── Ch1_Ingest.jsx
+│   ├── Ch1_5_Streaming.jsx ← the big conveyor belt sim
+│   └── ...                 ← Ch2 through Ch9
+└── .serve.py               ← no-cache dev server
+```
 
 ---
 
 ## Contributing
 
-Found a bug? Wrong number in a sim? Open an issue or a PR.
-The chapter files are self-contained — each one is a single JSX file you can
-read top to bottom in 10 minutes.
+Found a wrong number? A sim that does not teach clearly? Open an issue or a PR.
+
+Each chapter is a single self-contained JSX file. You can read any of them top-to-bottom
+in under 10 minutes. Adding a new simulator means adding a React component to the
+relevant chapter file — no build pipeline to fight.
 
 ---
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT — fork it, teach with it, build on it.
+
+---
+
+<div align="center">
+
+If this helped you think differently about data pipelines, a star helps others find it.
+
+**[Open the course](https://www.timloehr.me/de-fundamentals/)** · **[Star on GitHub](https://github.com/Mavengence/data-engineering-fundamentals)**
+
+</div>
