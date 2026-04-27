@@ -1,0 +1,105 @@
+<svg viewBox="0 0 1280 640" xmlns="http://www.w3.org/2000/svg"
+     font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif">
+
+  <!-- Background -->
+  <rect width="1280" height="640" fill="#0d1117"/>
+
+  <!-- Subtle grid -->
+  <defs>
+    <pattern id="grid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+    </pattern>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10z" fill="#4b5563"/>
+    </marker>
+  </defs>
+  <rect width="1280" height="640" fill="url(#grid)"/>
+
+  <!-- Title -->
+  <text x="640" y="90" text-anchor="middle"
+        fill="white" font-size="52" font-weight="800" letter-spacing="-1">
+    Data Engineering Fundamentals
+  </text>
+  <text x="640" y="135" text-anchor="middle"
+        fill="#6b7280" font-size="22" font-weight="400" letter-spacing="0.5">
+    10 chapters · 15 live simulators · runs in your browser
+  </text>
+
+  <!-- Pipeline boxes — row 1 (y=200) -->
+  <!-- gap: boxes 140px wide, 20px apart, 6 boxes = 6*140+5*20=940, start x=170 -->
+
+  <rect x="170" y="200" width="140" height="72" rx="10" fill="#1a2744"/>
+  <text x="240" y="228" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="11" font-weight="600">00</text>
+  <text x="240" y="252" text-anchor="middle" fill="white" font-size="14" font-weight="700">Fundamentals</text>
+
+  <line x1="310" y1="236" x2="328" y2="236" stroke="#4b5563" stroke-width="2" marker-end="url(#arr)"/>
+
+  <rect x="330" y="200" width="140" height="72" rx="10" fill="#6d4eef"/>
+  <text x="400" y="228" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="11" font-weight="600">01</text>
+  <text x="400" y="252" text-anchor="middle" fill="white" font-size="14" font-weight="700">Ingest</text>
+
+  <line x1="470" y1="236" x2="488" y2="236" stroke="#4b5563" stroke-width="2" marker-end="url(#arr)"/>
+
+  <rect x="490" y="200" width="140" height="72" rx="10" fill="#0891b2"/>
+  <text x="560" y="228" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="11" font-weight="600">02</text>
+  <text x="560" y="252" text-anchor="middle" fill="white" font-size="14" font-weight="700">Streaming</text>
+
+  <line x1="630" y1="236" x2="648" y2="236" stroke="#4b5563" stroke-width="2" marker-end="url(#arr)"/>
+
+  <rect x="650" y="200" width="140" height="72" rx="10" fill="#2563eb"/>
+  <text x="720" y="228" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="11" font-weight="600">03</text>
+  <text x="720" y="252" text-anchor="middle" fill="white" font-size="14" font-weight="700">Store</text>
+
+  <line x1="790" y1="236" x2="808" y2="236" stroke="#4b5563" stroke-width="2" marker-end="url(#arr)"/>
+
+  <rect x="810" y="200" width="140" height="72" rx="10" fill="#c2552a"/>
+  <text x="880" y="228" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="11" font-weight="600">04</text>
+  <text x="880" y="252" text-anchor="middle" fill="white" font-size="14" font-weight="700">Compute</text>
+
+  <line x1="950" y1="236" x2="968" y2="236" stroke="#4b5563" stroke-width="2" marker-end="url(#arr)"/>
+
+  <rect x="970" y="200" width="140" height="72" rx="10" fill="#1e7e34"/>
+  <text x="1040" y="228" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="11" font-weight="600">05</text>
+  <text x="1040" y="252" text-anchor="middle" fill="white" font-size="14" font-weight="700">Orchestrate</text>
+
+  <!-- Bend arrow -->
+  <line x1="1040" y1="272" x2="1040" y2="358" stroke="#4b5563" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Pipeline boxes — row 2 (y=360, right to left: 06-10) -->
+
+  <rect x="970" y="360" width="140" height="72" rx="10" fill="#b91c3a"/>
+  <text x="1040" y="388" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="11" font-weight="600">06</text>
+  <text x="1040" y="412" text-anchor="middle" fill="white" font-size="14" font-weight="700">Quality</text>
+
+  <line x1="970" y1="396" x2="952" y2="396" stroke="#4b5563" stroke-width="2" marker-end="url(#arr)"/>
+
+  <rect x="810" y="360" width="140" height="72" rx="10" fill="#92520a"/>
+  <text x="880" y="388" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="11" font-weight="600">07</text>
+  <text x="880" y="412" text-anchor="middle" fill="white" font-size="14" font-weight="700">Discover</text>
+
+  <line x1="810" y1="396" x2="792" y2="396" stroke="#4b5563" stroke-width="2" marker-end="url(#arr)"/>
+
+  <rect x="650" y="360" width="140" height="72" rx="10" fill="#006bb5"/>
+  <text x="720" y="388" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="11" font-weight="600">08</text>
+  <text x="720" y="412" text-anchor="middle" fill="white" font-size="14" font-weight="700">Serve</text>
+
+  <line x1="650" y1="396" x2="632" y2="396" stroke="#4b5563" stroke-width="2" marker-end="url(#arr)"/>
+
+  <rect x="490" y="360" width="140" height="72" rx="10" fill="#6d28d9"/>
+  <text x="560" y="388" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="11" font-weight="600">09</text>
+  <text x="560" y="412" text-anchor="middle" fill="white" font-size="14" font-weight="700">Govern</text>
+
+  <line x1="490" y1="396" x2="472" y2="396" stroke="#4b5563" stroke-width="2" marker-end="url(#arr)"/>
+
+  <rect x="330" y="360" width="140" height="72" rx="10" fill="#b84004"/>
+  <text x="400" y="388" text-anchor="middle" fill="rgba(255,255,255,.4)" font-size="11" font-weight="600">10</text>
+  <text x="400" y="412" text-anchor="middle" fill="white" font-size="14" font-weight="700">Capstone</text>
+
+  <!-- Bottom line -->
+  <text x="640" y="540" text-anchor="middle"
+        fill="#374151" font-size="18" font-weight="500">
+    github.com/Mavengence/data-engineering-fundamentals
+  </text>
+
+</svg>
