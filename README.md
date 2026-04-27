@@ -6,7 +6,7 @@
 
 *The only DE course where every concept is a live simulator: not a slide, not a video.*
 
-[![Live Demo](https://img.shields.io/badge/Live_Demo-Open_Course-%2306B6D4?style=for-the-badge)](https://www.timloehr.me/de-fundamentals/)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Open_Course-%2306B6D4?style=for-the-badge)](https://www.timloehr.me/data-engineering-fundamentals/)
 [![GitHub Stars](https://img.shields.io/github/stars/Mavengence/data-engineering-fundamentals?style=for-the-badge&color=FDEE21)](https://github.com/Mavengence/data-engineering-fundamentals/stargazers)
 [![License: MIT](https://img.shields.io/badge/License-MIT-white?style=for-the-badge)](LICENSE)
 
@@ -42,7 +42,7 @@ a retry double-count every row in real time.
 ## Try it now: no install
 
 ```
-https://www.timloehr.me/de-fundamentals/
+https://www.timloehr.me/data-engineering-fundamentals/
 ```
 
 Or run it locally in 30 seconds:
@@ -161,6 +161,6 @@ MIT: fork it, teach with it, build on it.
 
 If this helped you think differently about data pipelines, a star helps others find it.
 
-**[Open the course](https://www.timloehr.me/de-fundamentals/)** · **[Star on GitHub](https://github.com/Mavengence/data-engineering-fundamentals)**
+**[Open the course](https://www.timloehr.me/data-engineering-fundamentals/)** · **[Star on GitHub](https://github.com/Mavengence/data-engineering-fundamentals)**
 
 </div>
