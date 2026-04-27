@@ -193,9 +193,10 @@ function Ch7_Serve({ chapter, internalMode }) {
   const N = window.MMNames ? window.MMNames(internalMode) : { cube: 'Cube' };
   return (
     <>
-      <Hero eyebrow={`Chapter ${chapter.n} · ${chapter.time}`}
-            title="Serve: <span class='accent'>a metrics layer</span> is what separates data <em>warehouse</em> from data <em>product</em>."
-            hook="A pipeline that produces a correct number is worth nothing if the person asking the question can't find it. The <strong>metrics layer</strong> is the contract between the warehouse and every downstream consumer — humans in dashboards, analysts in notebooks, exec decks. It is the difference between <em>one</em> number that everyone trusts and five conflicting numbers cited in the same meeting."
+      <Hero accent={chapter.hex}
+            eyebrow={`Chapter ${chapter.n} · ${chapter.time}`}
+            title="Serve: <span class='accent'>five teams.</span> Five DAU numbers. One meeting."
+            hook="The warehouse has the right number. Nobody can agree what it is. Without a metrics layer, every team defines DAU in their dashboard SQL — independently, slightly differently, each plausible. You cannot reconcile them after the meeting. You can only prevent it before."
             meta={[
               { k: 'Contract', v: 'one definition per metric · forever' },
               { k: 'Owner', v: 'the team that produces the source' },

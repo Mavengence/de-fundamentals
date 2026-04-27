@@ -4731,3 +4731,199 @@ html, body { background: var(--bg-page); color: var(--fg-1); font-family: var(--
   animation: bt-strike 600ms cubic-bezier(0.32, 0.72, 0, 1) forwards;
 }
 @keyframes bt-strike { to { transform: scaleX(1); } }
+
+/* ==========================================================================
+   v13 — Animation drama + design elevation. Three big bets:
+   1. Focus lighting: dim 99% of Scanner to near-invisible, glow the 1%.
+   2. ShuffleSim overload: overflow animation + OVERLOADED label.
+   3. Capstone drop: rows BURST outward instead of fading.
+   Plus: chapter color theming, hero improvements, watermark affordance.
+   ========================================================================== */
+
+/* ===== (1) Scanner — DRAMATIC focus lighting ========================== */
+/* The aha moment: "It only reads THIS column." 99 others → invisible.  */
+.sc-disk.col .sc-c.dark {
+  opacity: 0.06;
+  transition: opacity 260ms ease-out, background 260ms ease-out;
+}
+.sc-disk.row .sc-c.dark { opacity: 1; } /* ensure reset on mode switch */
+
+/* Target column (col[47] revenue) glows blue and pulses when being read */
+.sc-disk.col .sc-c.target {
+  background: #BFDBFE;
+  opacity: 1;
+  transition: opacity 180ms ease;
+}
+.sc-disk.col .sc-c.target.read {
+  background: #2563EB;
+  box-shadow: 0 0 18px rgba(37,99,235,0.85), inset 0 0 0 1px rgba(255,255,255,0.4);
+  opacity: 1;
+}
+.sc-disk.col .sc-c.target.head {
+  background: #60A5FA;
+  box-shadow: 0 0 26px rgba(37,99,235,1.0), 0 0 52px rgba(37,99,235,0.55);
+  animation: sc-col-pulse 0.55s ease-in-out infinite;
+  opacity: 1;
+}
+@keyframes sc-col-pulse {
+  0%, 100% { box-shadow: 0 0 26px rgba(37,99,235,1.0), 0 0 52px rgba(37,99,235,0.55); }
+  50%       { box-shadow: 0 0 36px rgba(37,99,235,1.0), 0 0 70px rgba(37,99,235,0.70); }
+}
+
+/* Snappy: compressed cells still glow */
+.sc-disk.col .sc-c.target.snappy.read {
+  background: #1D4ED8;
+  box-shadow: 0 0 22px rgba(29,78,216,1.0);
+}
+
+/* Highlight the "target: col[47] revenue" label when in col mode */
+.sc-disk.col .sc-col47 {
+  background: rgba(37,99,235,0.18);
+  color: #60A5FA;
+  border-color: rgba(37,99,235,0.5);
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.2);
+  transition: all 280ms var(--ease-pro);
+}
+
+/* ===== (2) ShuffleSim — overloaded worker drama ====================== */
+/* The aha moment: "Worker 0 drowns while everyone else idles."         */
+
+/* Replace the qp-shake-pro (defined in v9) with more dramatic overflow */
+.qp-overload rect:first-child {
+  animation: qp-overflow-burst 1.1s ease-in-out infinite;
+  filter: drop-shadow(0 0 12px rgba(228,30,63,0.8));
+}
+@keyframes qp-overflow-burst {
+  0%, 100% {
+    transform: none;
+    filter: drop-shadow(0 0 12px rgba(228,30,63,0.8));
+  }
+  40% {
+    transform: scaleY(1.14) translateY(-3px);
+    filter: drop-shadow(0 0 20px rgba(228,30,63,1.0));
+  }
+  55% {
+    transform: scaleX(1.04) scaleY(1.1) translateY(-2px);
+    filter: drop-shadow(0 0 16px rgba(228,30,63,0.9));
+  }
+}
+
+/* "OVERLOADED" label pulsing above the worker bar */
+.qp-overload-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 800;
+  fill: #E41E3F;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  animation: qp-label-blink 0.65s ease-in-out infinite;
+}
+@keyframes qp-label-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+/* ===== (3) Capstone — rows BURST at broken gates ==================== */
+/* The aha moment: rows don't fade — they scatter and explode.          */
+.lp-row.lp-drop {
+  animation: lp-burst 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes lp-burst {
+  0%   {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+  35%  {
+    opacity: 0.85;
+    transform: translate(
+      calc(-50% + var(--sx, 6%) * 0.5),
+      calc(-50% + var(--sy, -8%) * 0.5)
+    ) scale(1.3);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(
+      calc(-50% + var(--sx, 6%)),
+      calc(-50% + var(--sy, -8%))
+    ) scale(0.25);
+  }
+}
+
+/* Gate flash on break toggle */
+.lp-stage { overflow: hidden; position: relative; }
+
+/* govblocked rows: spin out sideways */
+.lp-row.lp-govblock {
+  animation: lp-govblock-reject 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes lp-govblock-reject {
+  0%   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  40%  { opacity: 0.9; transform: translate(-30%, calc(-50% - 12%)) scale(1.2) rotate(-8deg); }
+  100% { opacity: 0; transform: translate(20%, calc(-50% - 20%)) scale(0.2) rotate(20deg); }
+}
+
+/* ===== Chapter color theming in hero ================================ */
+/* The hero eyebrow + underline bar adopt the chapter's --chapter-accent.
+   Each chapter passes chapter.hex as --chapter-accent via inline style. */
+.hero { --chapter-accent: var(--theme-blue); }
+.hero-eyebrow { color: var(--chapter-accent); }
+.hero-eyebrow::before { background: var(--chapter-accent); }
+.hero::after { background: var(--chapter-accent); }
+.hero-meta .m .v .chip {
+  background: color-mix(in oklab, var(--chapter-accent) 12%, #fff);
+  color: var(--chapter-accent);
+  border: 1px solid color-mix(in oklab, var(--chapter-accent) 28%, transparent);
+}
+
+/* ===== Watermark drag affordance — pulsing blue handle ============== */
+/* First-time visitor has no idea the watermark line is draggable.
+   A subtle glow+scale pulse on the handle calls attention to it.      */
+.wm-stage svg rect[fill="var(--theme-blue)"] {
+  /* The handle rect: animate to indicate drag affordance */
+  animation: wm-beckon 2.4s ease-in-out infinite;
+}
+@keyframes wm-beckon {
+  0%, 100% { filter: drop-shadow(0 2px 6px rgba(8,102,255,0.45)); }
+  50%       { filter: drop-shadow(0 4px 16px rgba(8,102,255,0.85)); }
+}
+
+/* ===== ByteTrace — warm vs cold color drama ========================= */
+/* Cold cache numbers should read DANGER, warm should read CALM.        */
+.bt-headline-cell.is-cold .big { color: #DC2626; }
+.bt-headline-cell.is-cold.is-active .big { color: #B91C1C; }
+.bt-headline-cell.is-cold { border-color: rgba(220,38,38,0.35); }
+.bt-headline-cell.is-cold.is-active {
+  border-color: #B91C1C;
+  box-shadow: 0 8px 22px -16px rgba(220,38,38,0.55);
+}
+.bt-headline-speedup .big {
+  background: linear-gradient(120deg, #2563EB, #7C3AED);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+}
+
+/* ===== Scanner efficiency readout — make the ratio dramatic ========= */
+.sc-stat.good .sc-stat-v { color: var(--theme-green); }
+.sc-stat.warn .sc-stat-v { color: #B91C1C; }
+
+/* ===== Trust meter: downstream impact panel — bigger number ========= */
+.tm-impact-cell .big { font-size: 36px; }
+.tm-impact-actual.is-wrong .big { font-size: 42px; }
+
+/* ===== Panel eyebrow: consistent label sizing ======================= */
+.panel-head { border-bottom: 2px solid var(--theme-gray-200); }
+.panel-head .panel-title .dot {
+  width: 8px; height: 8px;
+  background: var(--theme-blue);
+  border-radius: 50%;
+}
+
+/* ===== Reduced motion guards for new animations ==================== */
+@media (prefers-reduced-motion: reduce) {
+  .sc-disk.col .sc-c.target.head { animation: none; }
+  .qp-overload rect:first-child { animation: none; }
+  .qp-overload-label { animation: none; }
+  .lp-row.lp-drop { animation: none; opacity: 0; }
+  .lp-row.lp-govblock { animation: none; opacity: 0; }
+  .wm-stage svg rect[fill="var(--theme-blue)"] { animation: none; }
+}

@@ -4,9 +4,9 @@
 const { useState, useEffect, useRef, useMemo } = React;
 
 // Hero at the top of each chapter
-function Hero({ eyebrow, title, hook, meta }) {
+function Hero({ eyebrow, title, hook, meta, accent }) {
   return (
-    <header className="hero">
+    <header className="hero" style={accent ? { '--chapter-accent': accent } : undefined}>
       <div className="hero-eyebrow">{eyebrow}</div>
       <h1 className="hero-title" dangerouslySetInnerHTML={{ __html: title }} />
       <p className="hero-hook" dangerouslySetInnerHTML={{ __html: hook }} />

@@ -10,16 +10,16 @@ const { useState, useEffect, useRef, useMemo } = React;
  * ============================================================ */
 
 const OV_STAGES = [
-  { id: 'ingest', chap: 'ingest', n: '01', title: 'Ingest',      tag: 'where data is born',        hex: '#7C5CFF', icon: 'ingest', body: 'Events land from www, mobile, services. Kafka for raw, Flink for streaming. Everything downstream starts here.' },
+  { id: 'ingest', chap: 'ingest', n: '01', title: 'Ingest',      tag: 'where data is born',        hex: '#7C5CFF', icon: 'ingest', body: "Two clocks per event: when it happened, when you saw it. Mobile lag decides what you lose — and you can't see what you dropped." },
   { id: 'stream', chap: 'stream', n: '02', title: 'Streaming',   tag: 'real-time bridge',          hex: '#22D3EE', icon: 'stream', body: 'Sub-second dashboards via ClickHouse. Watermarks close windows. Fast loses on completeness; slow loses on latency.' },
-  { id: 'store',  chap: 'store',  n: '03', title: 'Store',       tag: 'where data lives',          hex: '#2D7DFF', icon: 'store',  body: 'Partitioned by ds. Columnar + Snappy. Daily snapshots. Cold gets moved, warm gets cached, hot gets replicated.' },
-  { id: 'comp',   chap: 'comp',   n: '04', title: 'Compute',     tag: 'how data is read',          hex: '#FF7A59', icon: 'comp',   body: 'Presto for interactive. Spark for heavy lifts. Predicate pushdown + partition pruning is the two-minute vs two-hour decision.' },
+  { id: 'store',  chap: 'store',  n: '03', title: 'Store',       tag: 'where data lives',          hex: '#2D7DFF', icon: 'store',  body: 'Yesterday ⊕ today, forever forward. One bug on Day 3 compounds invisibly until someone backtracks and backfills every row.' },
+  { id: 'comp',   chap: 'comp',   n: '04', title: 'Compute',     tag: 'how data is read',          hex: '#FF7A59', icon: 'comp',   body: 'The planner bets on stale statistics. One hot join key routes 80% of traffic to worker 0 — two minutes becomes two hours.' },
   { id: 'orch',   chap: 'orch',   n: '05', title: 'Orchestrate', tag: 'Airflow & idempotency',     hex: '#31A24C', icon: 'orch',   body: 'Python DAGs. INSERT OVERWRITE. A task that ran twice must equal a task that ran once — non-negotiable.' },
-  { id: 'qual',   chap: 'qual',   n: '06', title: 'Quality',     tag: 'ran ≠ right',               hex: '#E41E3F', icon: 'qual',   body: 'Row counts. Freshness. Expectation suites. A bad row is worse than a missing row — the bad one ships.' },
+  { id: 'qual',   chap: 'qual',   n: '06', title: 'Quality',     tag: 'ran ≠ right',               hex: '#E41E3F', icon: 'qual',   body: 'Row counts, freshness, uniqueness. A bad row is worse than a missing row — the bad one ships to the exec deck.' },
   { id: 'disc',   chap: 'disc',   n: '07', title: 'Discover',    tag: 'six shortcuts, four hours', hex: '#B8770A', icon: 'disc',   body: 'DataHub + OpenLineage. Owners in the catalog. Grepping dashboards for a metric definition in 2025? Doing it wrong.' },
-  { id: 'serve',  chap: 'serve',  n: '08', title: 'Serve',       tag: 'metrics & semantic',        hex: '#0091FF', icon: 'serve',  body: 'dbt + Cube. One DAU definition. The contract between the warehouse, the dashboard, and every consumer.' },
-  { id: 'gov',    chap: 'gov',    n: '09', title: 'Govern',      tag: 'the deploy gate',           hex: '#8B5CF6', icon: 'gov',    body: 'Access Gateway. Classifications. PII actors. Governance happens at write-time, not read-time.' },
-  { id: 'cap',    chap: 'cap',    n: '10', title: 'Capstone',    tag: 'one pipeline, six gates',   hex: '#E85D04', icon: 'cap',    body: 'dim_users end-to-end. Break any of six contracts and watch exactly what fails downstream.' },
+  { id: 'serve',  chap: 'serve',  n: '08', title: 'Serve',       tag: 'metrics & semantic',        hex: '#0091FF', icon: 'serve',  body: 'Five teams, five DAU numbers, one meeting. The metrics layer is why that sentence is past tense.' },
+  { id: 'gov',    chap: 'gov',    n: '09', title: 'Govern',      tag: 'the deploy gate',           hex: '#8B5CF6', icon: 'gov',    body: "An unannotated PII column never ships. The deploy gate reads the spec, not the PR author's intentions." },
+  { id: 'cap',    chap: 'cap',    n: '10', title: 'Capstone',    tag: 'one pipeline, six gates',   hex: '#E85D04', icon: 'cap',    body: 'All six contracts, live and sabotage-able. Break one — the analyst still gets a number. Wrong number.' },
 ];
 
 function StageIcon({ kind, color, size = 18 }) {

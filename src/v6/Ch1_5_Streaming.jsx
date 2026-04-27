@@ -524,7 +524,8 @@ function Ch1_5_Streaming({ chapter, internalMode }) {
   const N = MMNames(internalMode);
   return (
     <>
-      <Hero eyebrow={`Chapter ${chapter.n} · ${chapter.time}`}
+      <Hero accent={chapter.hex}
+            eyebrow={`Chapter ${chapter.n} · ${chapter.time}`}
             title={`Streaming: <span class='accent'>real-time</span> and <span class='accent'>accurate</span> are pick-two.`}
             hook={`Events arrive continuously — clicks, impressions, heartbeats. <strong>${N.flink}</strong> on top of <strong>${N.kafkastreams}</strong> gives you answers in seconds. ${N.snowflake} gives you answers you can bet a launch on. <em>They are not the same number.</em> Your job: know which one your decision needs, and bridge the two cleanly.`}
             meta={[

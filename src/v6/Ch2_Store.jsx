@@ -209,8 +209,9 @@ function CumulativeSim() {
 function Ch2_Store({ chapter }) {
   return (
     <>
-      <Hero eyebrow={`Chapter ${chapter.n} · ${chapter.time}`}
-            title="Store: <span class='accent'>where data lives</span> — and how history compounds."
+      <Hero accent={chapter.hex}
+            eyebrow={`Chapter ${chapter.n} · ${chapter.time}`}
+            title="Store: <span class='accent'>one bad day</span> poisons every day that follows it."
             hook="Most tables are a photo of yesterday. <strong>Cumulative tables</strong> are the whole photo album — each day, you carry yesterday's state forward and merge in today's deltas. Elegant when clean, catastrophic when broken: one bad day taints every day after it until you backfill."
             meta={[
               { k: 'Pattern', v: 'state-carrying' },

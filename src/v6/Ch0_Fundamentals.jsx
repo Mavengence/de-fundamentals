@@ -273,7 +273,8 @@ function EngineCards() {
 function Ch0_Fundamentals({ chapter, internalMode }) {
   return (
     <>
-      <Hero eyebrow={`Chapter ${chapter.n} · ${chapter.time}`}
+      <Hero accent={chapter.hex}
+            eyebrow={`Chapter ${chapter.n} · ${chapter.time}`}
             title="Core fundamentals: <span class='accent'>storage, formats, engines.</span>"
             hook="Before we talk about engines, we talk about physics. The shape of bytes on disk and the engine that reads them decides whether your query is a sip or a flood. <strong>Everything else is a consequence of this.</strong>"
             meta={[

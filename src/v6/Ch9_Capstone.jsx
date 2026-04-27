@@ -361,6 +361,12 @@ function LivingPipeline({ internalMode, reduceMotion }) {
       } else if (r.state === 'dropped') {
         x = r.dropStage === 'merge' ? GATE_X.merge : GATE_X.watermark;
         y = LANE_TOP + LANE_H * r.lane;
+        // Scatter direction: deterministic per row (hash on id), 8 direction quadrants
+        const angle = ((r.id * 47) % 8) * 45;
+        const sx = (Math.cos(angle * Math.PI / 180) * 9).toFixed(1);
+        const sy = (Math.sin(angle * Math.PI / 180) * 9 - 4).toFixed(1);
+        el.style.setProperty('--sx', `${sx}%`);
+        el.style.setProperty('--sy', `${sy}%`);
       } else if (r.state === 'govblocked') {
         x = GATE_X.govern;
         y = LANE_TOP + LANE_H * r.lane;
@@ -702,9 +708,10 @@ function Ch9_Capstone({ chapter, internalMode }) {
   const N = MMNames(internalMode);
   return (
     <>
-      <Hero eyebrow={`Chapter ${chapter.n} · ${chapter.time}`}
-            title={`The <span class='accent'>whole job</span>, in one animated diagram.`}
-            hook={`<code>dim_users</code> answers questions like <em>"how many users converted this week?"</em> for every dashboard and analyst in your data platform. Between the raw source and the analyst's answer sit six contracts you've already learned. Below, every contract is running live. Break any one of them — watch exactly what goes wrong, and what downstream stops trusting.`}
+      <Hero accent={chapter.hex}
+            eyebrow={`Chapter ${chapter.n} · ${chapter.time}`}
+            title={`<span class='accent'>Break any one</span> of six contracts. Watch exactly what fails.`}
+            hook={`<code>dim_users</code> is live. Six gates are running. Sabotage any one — MERGE drops new users, dedup stops, watermark closes early. The downstream analyst still gets a number. Just the wrong one. That's why every gate exists.`}
             meta={[
               { k: 'Dataset', v: 'dim_users' },
               { k: 'Contracts', v: '6 · all load-bearing' },

@@ -132,7 +132,8 @@ function IngestStreams() {
 function Ch1_Ingest({ chapter }) {
   return (
     <>
-      <Hero eyebrow={`Chapter ${chapter.n} · ${chapter.time}`}
+      <Hero accent={chapter.hex}
+            eyebrow={`Chapter ${chapter.n} · ${chapter.time}`}
             title="Ingest: <span class='accent'>where data is born,</span> and what it costs to trust it."
             hook="Events are captured live on the edge and land in two places: a <strong>sampled, real-time store</strong> (ClickHouse) for on-call; and an <strong>exact, batch warehouse</strong> (Snowflake) for accounting. The bridge between them is a watermark — a line past which late events are dropped. Drag it wrong and you ship wrong numbers."
             meta={[

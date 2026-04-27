@@ -75,11 +75,18 @@ function ShuffleSim() {
             const x = workerX(i);
             const h = Math.min(180, Math.max(40, load * 0.6));
             const y = 420 - h;
-            const col = overloaded[i] ? 'var(--theme-red)' : load > 180 ? '#F7B928' : 'var(--theme-blue)';
+            const isOverloaded = overloaded[i];
+            const col = isOverloaded ? 'var(--theme-red)' : load > 180 ? '#F7B928' : 'var(--theme-blue)';
+            const barOpacity = isOverloaded ? 0.9 : overloaded.some(Boolean) ? 0.38 : 0.85;
             return (
-              <g key={i} className={overloaded[i] ? 'qp-overload' : ''}>
-                <rect x={x - 30} y={y} width={60} height={h} rx={6} fill={col} opacity={0.85} />
+              <g key={i} className={isOverloaded ? 'qp-overload' : ''}>
+                <rect x={x - 30} y={y} width={60} height={h} rx={6} fill={col} opacity={barOpacity} />
                 <rect x={x - 30} y={420} width={60} height={14} rx={3} fill="var(--theme-gray-300)" />
+                {isOverloaded && (
+                  <text x={x} y={y - 8} textAnchor="middle" className="qp-overload-label">
+                    OVERLOADED
+                  </text>
+                )}
                 <text x={x} y={460} textAnchor="middle" className="qp-lab-big">W{i}</text>
                 <text x={x} y={478} textAnchor="middle" className="qp-lab-small">{Math.round(load)}MB</text>
               </g>
@@ -163,9 +170,10 @@ function EngineMatrix() {
 function Ch3_Compute({ chapter }) {
   return (
     <>
-      <Hero eyebrow={`Chapter ${chapter.n} · ${chapter.time}`}
-            title="Compute: <span class='accent'>how data is read,</span> and why the planner decides your fate."
-            hook="Three engines, one decoupled storage. Every <code>SELECT … FROM a JOIN b</code> is secretly a <strong>physical plan</strong> — hash partition, broadcast, or sort-merge. The planner picks based on stats, and if the stats lie, one worker eats the world."
+      <Hero accent={chapter.hex}
+            eyebrow={`Chapter ${chapter.n} · ${chapter.time}`}
+            title="Compute: <span class='accent'>the planner bets on statistics.</span> Wrong stats, wrong plan."
+            hook="Every JOIN is a bet the planner makes against table statistics. Broadcast or shuffle. If the stats are stale, it broadcasts a 5 GB table and OOMs 400 workers simultaneously. The SQL didn't change. The statistics did."
             meta={[
               { k: 'Engines', v: '<span class="chip">Presto</span><span class="chip">Spark</span><span class="chip">Snowflake</span>' },
               { k: 'Planners', v: 'CBO · statistics-driven' },

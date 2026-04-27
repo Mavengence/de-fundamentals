@@ -284,7 +284,8 @@ function Ch5_Quality({ chapter, internalMode }) {
   const N = MMNames(internalMode);
   return (
     <>
-      <Hero eyebrow={`Chapter ${chapter.n} · ${chapter.time}`}
+      <Hero accent={chapter.hex}
+            eyebrow={`Chapter ${chapter.n} · ${chapter.time}`}
             title={`Quality: a pipeline that <span class='accent'>ran</span> is not a pipeline that's <span class='accent'>right</span>.`}
             hook={`The hardest failures to catch are the ones that succeed. The task returns zero, writes a tiny partition, lands on time — and the number on the CFO's deck is wrong. Data-quality gates turn "the pipeline ran" into "the number is trustworthy." That's the contract the rest of the warehouse depends on.`}
             meta={[
