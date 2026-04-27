@@ -9,6 +9,8 @@ too short: late events disappear silently and you have no way to see what you lo
 The backfill simulator shows what happens when a retry hits a non-idempotent write:
 row counts double, quietly, in production.
 
+I built this while working as a data engineer at Meta, where I put together an internal onboarding course for new hires. After running it there, I sanitized and open-sourced it.
+
 This is not a Spark tutorial. It will not show you how to configure Airflow or write
 a Kafka producer. It teaches why those tools are designed the way they are,
 and what happens when they fail.
